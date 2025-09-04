@@ -1,0 +1,33 @@
+{
+  "ui": {
+    "card": {
+      "sabiana_vmc": {
+        "title": "Sabiana VMC",
+        "temperature": {
+          "internal": "Internal temperature",
+          "supply": "Supply temperature",
+          "exhaust": "Exhaust temperature",
+          "disposal": "Disposal temperature",
+          "efficiency": "Heat recovery efficiency"
+        },
+        "actions": {
+          "power": "Power",
+          "mode": "Mode",
+          "program": "Program",
+          "fan_speed": "Fan speed"
+        },
+        "modes": {
+          "auto": "Auto",
+          "party": "Party",
+          "holiday": "Holiday",
+          "program": "Program",
+          "manual": "Manual"
+        },
+        "errors": {
+          "missing_entity": "Missing or invalid entity: {entity}"
+        },
+        "version": "Version {version}"
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+services:
+  homeassistant:
+    container_name: card_test
+    image: ghcr.io/home-assistant/home-assistant:stable
+    ports:
+      - "8123:8123" # esponi Home Assistant sulla tua macchina Windows
+    volumes:
+      # Ricorda di abilitare la cartella su docker desktop (Settings > Resources > File Sharing)
+      # Crea un file .env nella stessa cartella di questo docker-compose.yml con la variabile HA_CONFIG
+      - ${HA_CONFIG}:/config
+      - ./dist/:/config/www/sabiana-vmc-card/
+    environment:
+      - TZ=Europe/Rome
+    restart: unless-stopped
+
+#docker compose up -d #Avvia il container
+#docker start card_test
+#docker stop card_test
+#docker restart card_test
+#docker rm -f card_test #Rimuove, ma non cancella, la cartella configurazione
+#docker logs -f card_test
+#docker compose pull && docker compose up -d #Aggiorna l'immagine
+#docker image prune -f #Pulisce le immagini non utilizzate

@@ -1,0 +1,10 @@
+lovelace:
+  mode: yaml
+  resources:
+    - url: /hacsfiles/sabiana-vmc-card/sabiana-vmc-card.js
+      type: module
+
+# Oppure per sviluppo locale:
+# resources:
+#   - url: /local/sabiana-vmc-card/sabiana-vmc-card.js
+#     type: module

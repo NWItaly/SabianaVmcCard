@@ -1,0 +1,33 @@
+{
+  "ui": {
+    "card": {
+      "sabiana_vmc": {
+        "title": "Sabiana VMC",
+        "temperature": {
+          "internal": "Temperatura interna",
+          "supply": "Temperatura mandata",
+          "exhaust": "Temperatura estratta",
+          "disposal": "Temperatura smaltimento",
+          "efficiency": "Efficienza scambiatore"
+        },
+        "actions": {
+          "power": "Accensione/Spegnimento",
+          "mode": "Modalità",
+          "program": "Programma",
+          "fan_speed": "Velocità ventola"
+        },
+        "modes": {
+          "auto": "Auto",
+          "party": "Party",
+          "holiday": "Holiday",
+          "program": "Programma",
+          "manual": "Manuale"
+        },
+        "errors": {
+          "missing_entity": "Entità mancante o non valida: {entity}"
+        },
+        "version": "Versione {version}"
+      }
+    }
+  }
+}

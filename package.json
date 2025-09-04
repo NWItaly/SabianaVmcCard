@@ -1,0 +1,24 @@
+{
+  "name": "sabiana-vmc-card",
+  "version": "0.0.1",
+  "description": "Card personalizzata per VMC Sabiana ENY-SP",
+  "main": "dist/sabiana-vmc-card.js",
+  "type": "module",
+  "author": "NWItaly",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "gen:localize-keys": "ts-node scripts/generate-localize-keys.ts"
+  },
+  "dependencies": {
+    "lit": "^3.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.1",
+    "lit": "^3.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2",
+    "vite": "^5.0.0"
+  }
+}
