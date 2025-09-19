@@ -4,14 +4,16 @@
       "sabiana_vmc": {
         "title": "Sabiana VMC",
         "temperature": {
-          "internal": "Internal temperature",
-          "supply": "Supply temperature",
-          "exhaust": "Exhaust temperature",
-          "disposal": "Disposal temperature",
+          "internal": "Internal",
+          "external": "External",
+          "exhaust": "Exhaust",
+          "disposal": "Disposal",
           "efficiency": "Heat recovery efficiency"
         },
         "actions": {
           "power": "Power",
+          "power_on": "Turn on",
+          "power_off": "Turn off",
           "mode": "Mode",
           "program": "Program",
           "fan_speed": "Fan speed"
@@ -23,7 +25,15 @@
           "program": "Program",
           "manual": "Manual"
         },
+        "programs": {
+          "p1": "Family with children, both parents work outside during the day",
+          "p2": "Family with constant presence at home during the day",
+          "p3": "Family that works and returns home for lunch",
+          "p4": "Office used from Monday to Friday",
+          "pN": "Custom {program}"
+        },
         "errors": {
+          "missing_config": "Missing or invalid configuration: {key}",
           "missing_entity": "Missing or invalid entity: {entity}"
         },
         "version": "Version {version}"

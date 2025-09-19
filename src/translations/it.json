@@ -4,26 +4,36 @@
       "sabiana_vmc": {
         "title": "Sabiana VMC",
         "temperature": {
-          "internal": "Temperatura interna",
-          "supply": "Temperatura mandata",
-          "exhaust": "Temperatura estratta",
-          "disposal": "Temperatura smaltimento",
+          "internal": "Interna",
+          "external": "Esterna",
+          "exhaust": "Estratta",
+          "disposal": "Smaltimento",
           "efficiency": "Efficienza scambiatore"
         },
         "actions": {
           "power": "Accensione/Spegnimento",
+          "power_on": "Accendi",
+          "power_off": "Spegni",
           "mode": "Modalità",
           "program": "Programma",
           "fan_speed": "Velocità ventola"
         },
         "modes": {
           "auto": "Auto",
-          "party": "Party",
-          "holiday": "Holiday",
+          "party": "Festa",
+          "holiday": "Vacanza",
           "program": "Programma",
           "manual": "Manuale"
         },
+        "programs": {
+          "p1": "Famiglia con bambini, entrambi i genitori lavorano fuori casa durante il giorno",
+          "p2": "Famiglia con presenza fissa in casa durante la giornata",
+          "p3": "Famiglia che lavora con rientro per il pasto di mezzogiorno",
+          "p4": "Ufficio con utilizzo dal lunedì al venerdì",
+          "pN": "Personalizzato {program}"
+        },
         "errors": {
+          "missing_config": "Configurazione mancante o non valida: {key}",
           "missing_entity": "Entità mancante o non valida: {entity}"
         },
         "version": "Versione {version}"

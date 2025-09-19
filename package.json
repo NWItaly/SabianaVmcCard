@@ -1,6 +1,6 @@
 {
   "name": "sabiana-vmc-card",
-  "version": "0.0.1",
+  "version": "0.9.20",
   "description": "Card personalizzata per VMC Sabiana ENY-SP",
   "main": "dist/sabiana-vmc-card.js",
   "type": "module",
@@ -12,6 +12,7 @@
     "gen:localize-keys": "ts-node scripts/generate-localize-keys.ts"
   },
   "dependencies": {
+    "custom-card-helpers": "^1.9.0",
     "lit": "^3.3.1"
   },
   "devDependencies": {
