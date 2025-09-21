@@ -1,9 +1,9 @@
 {
   "name": "Sabiana VMC Card",
   "content_in_root": false,
-  "filename": "sabiana-vmc-card.js",
+  "filename": "dist/sabiana-vmc-card.js",
   "country": [
-    "IT"
+    "IT", "EN"
   ],
   "render_readme": true,
   "iot_class": "Local Push",
