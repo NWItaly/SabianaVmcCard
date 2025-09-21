@@ -5,11 +5,9 @@ yarn-debug.log*
 yarn-error.log*
 
 # Build output
-dist/*
 !dist/.gitkeep
 
 # IDE
-.vscode/
 .idea/
 *.swp
 *.swo

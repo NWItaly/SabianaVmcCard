@@ -1,0 +1,47 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Docker - Avvia",
+      "type": "shell",
+      "command": "docker compose up -d",
+      "problemMatcher": []
+    },
+    {
+      "label": "Docker - Ferma",
+      "type": "shell",
+      "command": "docker compose down",
+      "problemMatcher": []
+    },
+    {
+      "label": "Docker - Riavvia",
+      "type": "shell",
+      "command": "docker compose restart",
+      "problemMatcher": []
+    },
+    {
+      "label": "Docker - Log in tempo reale",
+      "type": "shell",
+      "command": "docker compose logs -f card_test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Docker - Aggiorna immagine",
+      "type": "shell",
+      "command": "docker compose pull && docker compose up -d",
+      "problemMatcher": []
+    },
+    {
+      "label": "Vite - Compila",
+      "type": "shell",
+      "command": "npm run build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Vite - Dev mode (hot-reload)",
+      "type": "shell",
+      "command": "npm run dev",
+      "problemMatcher": []
+    }
+  ]
+}

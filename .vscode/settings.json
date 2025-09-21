@@ -1,0 +1,31 @@
+{
+  "yaml.format.enable": true,
+  "taskExplorer.enableSideBar": true,
+  "taskExplorer.enableExplorerView": true,
+  "taskExplorer.exclude": [
+    "**/.vscode-test/**",
+    "**/Assets/**",
+    "**/bin/**",
+    "**/build/**",
+    "**/dist/**",
+    "**/doc/**",
+    "**/example/**",
+    "**/examples/**",
+    "**/ext/**",
+    "**/obj/**",
+    "**/out/**",
+    "**/output/**",
+    "**/packages/**",
+    "**/release/**",
+    "**/releases/**",
+    "**/samples/**",
+    "**/sdks/**",
+    "**/static/**",
+    "**/target/**",
+    "**/test/**",
+    "**/third_party/**",
+    "**/vendor/**",
+    "**/work/**",
+    "/c:/Users/sacch/SynologyDrive/Progetti/SabianaVMCCard/package.json"
+  ]
+}
