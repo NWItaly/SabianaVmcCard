@@ -23,6 +23,7 @@ const ENTITY_BASE = {
     , mode_command_program: 'switch.@prefix@_mode_command_program'
     , mode_command_auto: 'switch.@prefix@_mode_command_auto'
     , fan_speed: 'number.@prefix@_vmc_manual_speed'
+    , duty_cycle_fan_1: 'sensor.@prefix@_blk1_duty_cycle_fan_1'
     , program: 'number.@prefix@_vmc_timer_progr_selection'
     , boost: 'binary_sensor.@prefix@_blk1_boost_active'
     , bypass: 'binary_sensor.@prefix@_blk1_bypass_active'

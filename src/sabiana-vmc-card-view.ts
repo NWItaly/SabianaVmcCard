@@ -25,8 +25,9 @@ export function renderCard(this: SabianaVmcCard) {
   const bypass = safeState(this.hass, this.entities?.bypass, 'off') === 'on';
   const modeState = safeState(this.hass, this.entities?.mode) || '';
   const programSelection = toNumber(safeState(this.hass, this.entities?.program));
-  const fanSpeed = toNumber(safeState(this.hass, this.entities?.fan_speed));
-  const fanAnim = powerState && fanSpeed > 0 ? "fan-anim" : "";
+  const manualSpeed = toNumber(safeState(this.hass, this.entities?.fan_speed));
+  const realSpeed = getSpeedStep(toNumber(safeState(this.hass, this.entities?.duty_cycle_fan_1)));
+  const fanAnim = powerState && realSpeed > 0 ? "fan-anim" : "";
 
   return html`
 <ha-card>
@@ -68,7 +69,7 @@ export function renderCard(this: SabianaVmcCard) {
       <svg xmlns="http://www.w3.org/2000/svg" 
         class="${fanAnim}"
         fill="currentColor"
-        style="${fanSpeed > 0 ? `animation-duration: ${getFanAnimationSpeed(fanSpeed)};` : ''}"
+        style="${realSpeed > 0 ? `animation-duration: ${getFanAnimationSpeed(realSpeed)};` : ''}"
         viewBox="0 0 24 24"
         width="112" height="112">
         <path d="M12,11A1,1 0 0,0 11,12A1,1 0 0,0 12,13A1,1 0 0,0 13,12A1,1 0 0,0 12,11M12.5,2C17,2 17.11,5.57 14.75,6.75C13.76,7.24 13.32,8.29 13.13,9.22C13.61,9.42 14.03,9.73 14.35,10.13C18.05,8.13 22.03,8.92 22.03,12.5C22.03,17 18.46,17.1 17.28,14.73C16.78,13.74 15.72,13.3 14.79,13.11C14.59,13.59 14.28,14 13.88,14.34C15.87,18.03 15.08,22 11.5,22C7,22 6.91,18.42 9.27,17.24C10.25,16.75 10.69,15.71 10.89,14.79C10.4,14.59 9.97,14.27 9.65,13.87C5.96,15.85 2,15.07 2,11.5C2,7 5.56,6.89 6.74,9.26C7.24,10.25 8.29,10.68 9.22,10.87C9.41,10.39 9.73,9.97 10.14,9.65C8.15,5.96 8.94,2 12.5,2Z" />
@@ -77,19 +78,17 @@ export function renderCard(this: SabianaVmcCard) {
 
     <div class="status-indicator">
 
-      <ha-tooltip label="Boost">
-        <ha-icon 
-          class="${!boost ? 'hidden-element' : ''}"
-          icon="mdi:fan-plus">
-        </ha-icon>
-      </ha-tooltip>
+      <ha-icon 
+        class="${!boost ? 'hidden-element' : ''}"
+        title="Boost"
+        icon="mdi:fan-plus">
+      </ha-icon>
 
-      <ha-tooltip label="${safeState(this.hass, this.entities?.bypass_mode)}">
-        <ha-icon 
-          class="${!bypass ? 'hidden-element' : ''}"
-          icon="mdi:debug-step-over"
-        </ha-icon>
-      </ha-tooltip>
+      <ha-icon 
+        class="${!bypass ? 'hidden-element' : ''}"
+        icon="mdi:debug-step-over"
+        title="${safeState(this.hass, this.entities?.bypass_mode)}">
+      </ha-icon>
 
     </div>
 
@@ -101,9 +100,9 @@ export function renderCard(this: SabianaVmcCard) {
         aria-label="${mode}"
         class="mode-button ${modeState === mode ? "selected" : ""}"
         @click=${() => this.selectMode(toSabianaVmcMode(mode))}
+        title="${localize(lang, toSabianaVmcModeLocalization(mode))}"
         ?disabled="${!powerState}">
         <ha-icon icon="${toSabianaVmcModeIcon(mode)}"></ha-icon>
-        <span class="mode-label">${localize(lang, toSabianaVmcModeLocalization(mode))}</span>
       </button>
     `)}
   </div>
@@ -113,7 +112,7 @@ export function renderCard(this: SabianaVmcCard) {
     ${Array.from({ length: 4 }, (_, speed) => html`
       <button 
         aria-label="${speed}"
-        class="speed-button ${fanSpeed === speed ? 'selected' : ''}"
+        class="speed-button ${manualSpeed === speed ? 'selected' : ''}"
         @click=${() => this.setFanSpeed(speed)}
         ?disabled="${!powerState}">
         <ha-icon icon="${getIconForSpeed(speed)}"></ha-icon>
@@ -144,27 +143,51 @@ export function renderCard(this: SabianaVmcCard) {
 `;
 }
 
+function getSpeedStep(currentPercent: number): number {
+  const steps = [
+    { speed: 0, percent: 0 },
+    { speed: 1, percent: 40 },
+    { speed: 2, percent: 55 },
+    { speed: 3, percent: 70 },
+    { speed: 4, percent: 85 },
+  ];
+
+  // Trova lo step la cui percentuale è la più vicina alla lettura corrente
+  let closest = steps[0];
+  let minDistance = Math.abs(currentPercent - steps[0].percent);
+
+  for (let i = 1; i < steps.length; i++) {
+    const distance = Math.abs(currentPercent - steps[i].percent);
+    if (distance < minDistance) {
+      closest = steps[i];
+      minDistance = distance;
+    }
+  }
+  return closest.speed;
+}
+
 function getFanAnimationSpeed(speed: number): string {
   switch (speed) {
     case 1:
       return "4s";    // lenta
     case 2:
-      return "2.8s";
+      return "2.5s";
     case 3:
       return "1.6s";
     case 4:
-      return "1s";    // veloce
+      return "0.8s";    // veloce
     default:
       return "0s";    // ferma
   }
 }
 
 function getIconForSpeed(speed: number): string {
-  switch (speed) {
-    case 1: return "mdi:fan-speed-1";
-    case 2: return "mdi:fan-speed-2";
-    case 3: return "mdi:fan-speed-3";
-    default: return "mdi:fan-off";
+  switch (speed) { 
+    case 0: return "mdi:fan-speed-1";
+    case 1: return "mdi:fan-speed-2";
+    case 2: return "mdi:fan-speed-3";
+    case 3: return "mdi:fan-plus";
+    default: return "mdi:fan";
   }
 }
 

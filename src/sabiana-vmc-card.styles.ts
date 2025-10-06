@@ -126,6 +126,7 @@ export const cardStyles = css`
     border-radius: 0;             /* Nessun arrotondamento di default */
     outline: none;
     padding: 4px;
+    container-type: inline-size;
   }
 
   .mode-button:first-child {
@@ -152,18 +153,6 @@ export const cardStyles = css`
   .mode-button:disabled {
     cursor: not-allowed;
     opacity: 0.2;
-  }
-
-  .mode-label {
-    margin-left: 4px;
-    white-space: nowrap;
-    display: inline;
-  }
-
-  @media (max-width: 600px) {
-    .mode-label {
-      display: none;
-    }
   }
 
   /* Stili per il selettore della velocità manuale */
