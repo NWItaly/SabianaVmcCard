@@ -29,6 +29,10 @@ export function renderCard(this: SabianaVmcCard) {
 
   return html`
 <ha-card>
+  <div class="spinner ${!this.spinner ? 'hidden-element' : ''}">
+    <ha-icon icon="mdi:loading"></ha-icon>
+  </div>
+
   <h1 class="header">
     <div class="name">
       Sabiana ${model}

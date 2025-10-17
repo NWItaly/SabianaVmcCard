@@ -2,7 +2,7 @@
  * Restituisce lo stato di un'entità, o undefined se non disponibile
  */
 export function safeState(hass: any, entityId?: string, defaultValue: any | undefined = undefined): string | undefined {
-  if (!entityId) return defaultValue;
+  if (!hass || !entityId) return defaultValue;
   return hass.states[entityId]?.state;
 };
 
@@ -21,7 +21,7 @@ export function formatNumber(value: number | undefined, lang: string = 'en', dec
  * Aggiunge l'unità di misura dell'entità al valore formattato
  */
 export function withUnit(hass: any, entityId?: string, formattedValue?: string): string {
-  if (!entityId || !formattedValue) return formattedValue ?? 'n/a';
+  if (!hass || !entityId || !formattedValue) return formattedValue ?? 'n/a';
   const unit = hass.states[entityId]?.attributes?.unit_of_measurement;
   return unit ? `${formattedValue} ${unit}` : formattedValue;
 };

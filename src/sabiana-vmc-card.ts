@@ -7,17 +7,19 @@ import { LOC_KEYS } from './localize-keys';
 import type { HomeAssistant, LovelaceCard } from 'custom-card-helpers';
 import { SabianaVmcMode } from './sabiana-vmc-mode';
 import { createSabianaEntities, SabianaEntities, SabianaVmcCardConfig } from './configuration';
+import { safeState } from './commons';
 
 @customElement('sabiana-vmc-card')
 export class SabianaVmcCard
   extends LitElement
   implements LovelaceCard {
 
-  @property({ attribute: false }) hass!: HomeAssistant;
-  @property({ attribute: false }) config?: SabianaVmcCardConfig;
-  @property({ attribute: false }) entities?: SabianaEntities;
-  @property({ attribute: false }) modalMessage: string = "";
+  @state() hass!: HomeAssistant;
+  @state() protected config?: SabianaVmcCardConfig;
+  @state() protected entities?: SabianaEntities;
+  @state() protected modalMessage: string = "";
   @state() protected error?: string;
+  @state() protected spinner: boolean = false;
 
   static styles = cardStyles;
 
@@ -56,6 +58,16 @@ export class SabianaVmcCard
         }
       };
     }
+    else if(this.spinner && changedProps.has('hass')) {
+      const oldHA = changedProps.get('hass') as HomeAssistant | undefined;
+      const oldMode = safeState(oldHA, this.entities?.mode);
+      const newMode = safeState(this.hass, this.entities?.mode);
+
+      if (oldMode !== newMode) {
+        console.log('La modalità di funzionamento è cambiata:', newMode);
+        this.spinner = false;
+      }
+    }
   }
 
   render = renderCard;
@@ -63,6 +75,18 @@ export class SabianaVmcCard
   getCardSize() {
     return 3;
   }
+
+  connectedCallback() {
+    super.connectedCallback();
+    // Esempio: avvia timer, listener, o abbonamenti  
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    // Pulisci timer, listener per evitare memory leak  
+  }
+
+  //#region User actions
 
   protected togglePower() {
     if (!this.entities?.power) return;
@@ -93,6 +117,7 @@ export class SabianaVmcCard
     if (!entityId) return;
 
     this.hass.callService('switch', 'toggle', { entity_id: entityId });
+    this.spinner = true;
   }
 
   protected setFanSpeed(speed: number) {
@@ -111,17 +136,9 @@ export class SabianaVmcCard
     });
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-    // Esempio: avvia timer, listener, o abbonamenti  
-  }
+  //#endregion
 
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    // Pulisci timer, listener per evitare memory leak  
-  }
-
-  //#region  "Modale"
+  //#region Modale
   openModal(message: string) {
     this.modalMessage = message;
   }
@@ -130,4 +147,5 @@ export class SabianaVmcCard
     this.modalMessage = "";
   }
   //#endregion
+  
 }

@@ -301,7 +301,7 @@ export const cardStyles = css`
     }
   }
 
-  /** Stili per la modale */
+  /* Stili per la modale */
   .modal {
     display: block;
     position: fixed;
@@ -336,5 +336,29 @@ export const cardStyles = css`
     font-size: 0.75em;
     color: var(--secondary-text-color);
     user-select: none;
+  }
+
+  /* Stili per lo Spinner */
+  .spinner {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    border-radius: 8px;
+  }
+
+  .spinner ha-icon {
+    animation: spin 1s linear infinite;
+    width: 48px;
+    height: 48px;
+    color: var(--primary-color);
+  }
+
+  @keyframes spin {
+    0%   { transform: rotate(0deg);}
+    100% { transform: rotate(360deg);}
   }
 `;
