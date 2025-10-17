@@ -26,15 +26,21 @@
           "manual": "Manuale"
         },
         "programs": {
-          "p1": "Famiglia con bambini, entrambi i genitori lavorano fuori casa durante il giorno",
-          "p2": "Famiglia con presenza fissa in casa durante la giornata",
-          "p3": "Famiglia che lavora con rientro per il pasto di mezzogiorno",
-          "p4": "Ufficio con utilizzo dal lunedì al venerdì",
-          "pN": "Personalizzato {program}"
+          "p1": "Famiglia con bambini, entrambi i genitori lavorano fuori casa durante il giorno.",
+          "p2": "Famiglia con presenza fissa in casa durante la giornata.",
+          "p3": "Famiglia che lavora con rientro per il pasto di mezzogiorno.",
+          "p4": "Ufficio con utilizzo dal lunedì al venerdì.",
+          "pN": "Personalizzato {program}."
+        },
+        "messages": {
+          "boost_on": "La modalità Boost è attiva.",
+          "boost_off": "La modalità Boost è disattiva.",
+          "bypass_on": "La modalità Bypass è attiva.",
+          "bypass_off": "La modalità Bypass è disattiva."
         },
         "errors": {
-          "missing_config": "Configurazione mancante o non valida: {key}",
-          "missing_entity": "Entità mancante o non valida: {entity}"
+          "missing_config": "Configurazione mancante o non valida: {key}.",
+          "missing_entity": "Entità mancante o non valida: {entity}."
         },
         "version": "Versione {version}"
       }

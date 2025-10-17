@@ -17,12 +17,10 @@ export function renderCard(this: SabianaVmcCard) {
   const CARD_VERSION = __CARD_VERSION__;
   const model = safeState(this.hass, this.entities?.model, 'n/a');
   const powerState = safeState(this.hass, this.entities?.power, 'off') === 'on';
-  // const tempIn = toNumber(safeState(this.hass, this.entities?.temp_in));
-  // const tempOut = toNumber(safeState(this.hass, this.entities?.temp_out));
-  // const tempExhaust = toNumber(safeState(this.hass, this.entities?.temp_exhaust));
-  // const tempDisposal = toNumber(safeState(this.hass, this.entities?.temp_disposal));
   const boost = safeState(this.hass, this.entities?.boost, 'off') === 'on';
+  const boostTitle = boost ? localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.boost_on) : localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.boost_off);
   const bypass = safeState(this.hass, this.entities?.bypass, 'off') === 'on';
+  const bypassTitle = bypass ? localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.bypass_on) : localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.bypass_off);
   const modeState = safeState(this.hass, this.entities?.mode) || '';
   const programSelection = toNumber(safeState(this.hass, this.entities?.program));
   const manualSpeed = toNumber(safeState(this.hass, this.entities?.fan_speed));
@@ -79,15 +77,17 @@ export function renderCard(this: SabianaVmcCard) {
     <div class="status-indicator">
 
       <ha-icon 
-        class="${!boost ? 'hidden-element' : ''}"
-        title="Boost"
-        icon="mdi:fan-plus">
+        class="${!boost ? 'off' : 'on'}"
+        title="${boostTitle}"
+        icon="mdi:fan-plus"
+        @click="${() => this.openModal(boostTitle)}">
       </ha-icon>
 
       <ha-icon 
-        class="${!bypass ? 'hidden-element' : ''}"
+        class="${!bypass ? 'off' : 'on'}"
+        title="${bypassTitle}"
         icon="mdi:debug-step-over"
-        title="${safeState(this.hass, this.entities?.bypass_mode)}">
+        @click="${() => this.openModal(bypassTitle)}">
       </ha-icon>
 
     </div>
@@ -113,7 +113,7 @@ export function renderCard(this: SabianaVmcCard) {
       <button 
         aria-label="${speed}"
         class="speed-button ${manualSpeed === speed ? 'selected' : ''}"
-        @click=${() => this.setFanSpeed(speed)}
+        @click="${() => this.setFanSpeed(speed)}"
         ?disabled="${!powerState}">
         <ha-icon icon="${getIconForSpeed(speed)}"></ha-icon>
       </button>
@@ -127,7 +127,7 @@ export function renderCard(this: SabianaVmcCard) {
         aria-label="${getLabelForProgram(lang, program)}"
         title="${getLabelForProgram(lang, program)}"
         class="program-button ${programSelection === program ? 'selected' : ''}"
-        @click=${() => this.setProgram(program)}
+        @click="${() => this.setProgram(program)}"
         ?disabled="${!powerState}">
         <ha-icon icon="mdi:numeric-${program + 1}"></ha-icon>
       </button>
@@ -138,6 +138,14 @@ export function renderCard(this: SabianaVmcCard) {
     <div></div>
     <div class="version">v${CARD_VERSION}</div>
   </div>
+
+  ${this.modalMessage.length > 0 ? html`
+    <div class="modal" @click="${this.closeModal}">
+      <div class="modal-content" @click="${(e:Event)=>e.stopPropagation()}">
+        <span class="close" @click="${this.closeModal}">&times;</span>
+        <p>${this.modalMessage}</p>
+      </div>
+    </div>` : ''}
 
 </ha-card>
 `;

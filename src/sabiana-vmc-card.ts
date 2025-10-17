@@ -16,6 +16,7 @@ export class SabianaVmcCard
   @property({ attribute: false }) hass!: HomeAssistant;
   @property({ attribute: false }) config?: SabianaVmcCardConfig;
   @property({ attribute: false }) entities?: SabianaEntities;
+  @property({ attribute: false }) modalMessage: string = "";
   @state() protected error?: string;
 
   static styles = cardStyles;
@@ -120,4 +121,13 @@ export class SabianaVmcCard
     // Pulisci timer, listener per evitare memory leak  
   }
 
+  //#region  "Modale"
+  openModal(message: string) {
+    this.modalMessage = message;
+  }
+
+  closeModal() {
+    this.modalMessage = "";
+  }
+  //#endregion
 }

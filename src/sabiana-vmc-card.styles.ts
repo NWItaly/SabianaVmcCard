@@ -77,6 +77,19 @@ export const cardStyles = css`
     text-align: right;
   }
 
+  .status-indicator ha-icon {
+    font-size: 1.5em;
+    cursor: pointer;
+  }
+
+  .status-indicator ha-icon.on {
+    color: var(--primary-color);
+  }
+
+  .status-indicator ha-icon.off {
+    color: var(--disabled-text-color);
+  }
+
   /* Stili per il pulsante di accensione */
   .power-button {
     border: none;
@@ -286,6 +299,30 @@ export const cardStyles = css`
     100% {
       transform: rotate(-360deg);
     }
+  }
+
+  /** Stili per la modale */
+  .modal {
+    display: block;
+    position: fixed;
+    z-index: 999;
+    left: 0; top: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.4);
+    color: #333;
+  }
+  .modal-content {
+    background: #fff;
+    margin: 15% auto;
+    padding: 16px;
+    border-radius: 8px;
+    width: 300px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  }
+  .close {
+    float: right;
+    cursor: pointer;
+    font-size: 22px;
   }
 
   .footer {

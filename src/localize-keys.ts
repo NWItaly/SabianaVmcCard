@@ -35,6 +35,12 @@ export const LOC_KEYS = {
           "p4": "ui.card.sabiana_vmc.programs.p4",
           "pN": "ui.card.sabiana_vmc.programs.pN"
         },
+        "messages": {
+          "boost_on": "ui.card.sabiana_vmc.messages.boost_on",
+          "boost_off": "ui.card.sabiana_vmc.messages.boost_off",
+          "bypass_on": "ui.card.sabiana_vmc.messages.bypass_on",
+          "bypass_off": "ui.card.sabiana_vmc.messages.bypass_off"
+        },
         "errors": {
           "missing_config": "ui.card.sabiana_vmc.errors.missing_config",
           "missing_entity": "ui.card.sabiana_vmc.errors.missing_entity"

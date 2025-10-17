@@ -1,6 +1,6 @@
 {
   "name": "sabiana-vmc-card",
-  "version": "0.10.06",
+  "version": "0.10.18",
   "description": "Card personalizzata per VMC Sabiana ENY-SP",
   "main": "dist/sabiana-vmc-card.js",
   "type": "module",

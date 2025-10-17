@@ -32,6 +32,12 @@
           "p4": "Office used from Monday to Friday",
           "pN": "Custom {program}"
         },
+        "messages": {
+          "boost_on": "Boost mode is active",
+          "boost_off": "Boost mode is deactive",
+          "bypass_on": "Bypass mode is active",
+          "bypass_off": "Bypass mode is deactive"
+        },
         "errors": {
           "missing_config": "Missing or invalid configuration: {key}",
           "missing_entity": "Missing or invalid entity: {entity}"
