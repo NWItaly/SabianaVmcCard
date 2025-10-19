@@ -28,6 +28,22 @@ const ENTITY_BASE = {
     , boost: 'binary_sensor.@prefix@_blk1_boost_active'
     , bypass: 'binary_sensor.@prefix@_blk1_bypass_active'
     , bypass_mode: 'sensor.@prefix@_blk1_free_cooling_free_heating'
+    , defrost: 'binary_sensor.@prefix@_blk1_defrost_cycle_active'
+    , t1_probe_failure: 'binary_sensor.@prefix@_blk1_t1_probe_failure'
+    , t2_probe_failure: 'binary_sensor.@prefix@_blk1_t2_probe_failure'
+    , t3_probe_failure: 'binary_sensor.@prefix@_blk1_t3_probe_failure'
+    , t4_probe_failure: 'binary_sensor.@prefix@_blk1_t4_probe_failure'
+    , timekeeper_failure: 'binary_sensor.@prefix@_blk1_timekeeper_failure'
+    , frost_alarm_t1_probe: 'binary_sensor.@prefix@_blk1_frost_alarm'
+    , frost_alarm_t2_probe: 'binary_sensor.@prefix@_blk1_frost_alarm_t2_probe'
+    , fireplace_alarm: 'binary_sensor.@prefix@_blk1_fireplace_alarm'
+    , pressure_transducer_failure: 'binary_sensor.@prefix@_blk1_pressure_transducer_failure'
+    , filter_alarm: 'binary_sensor.@prefix@_blk1_filter_alarm'
+    , fans_failure: 'binary_sensor.@prefix@_blk1_fans_failure'
+    , rh_or_co2_sensor_failure: 'binary_sensor.@prefix@_blk1_rh_or_co2_sensor_failure'
+    , fan_thermic_input_alarm: 'binary_sensor.@prefix@_blk1_fan_thermic_input_alarm'
+    , pre_heating_alarm: 'binary_sensor.@prefix@_blk1_pre_heating_alarm'
+    , pre_frost_alarm_t2: 'binary_sensor.@prefix@_blk1_pre_frost_alarm_t2'
 } as const;
 
 /**

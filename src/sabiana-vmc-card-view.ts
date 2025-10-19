@@ -1,9 +1,11 @@
 import { html } from "lit";
 import { SabianaVmcCard } from "./sabiana-vmc-card";
 import { localize } from "./localize";
-import { getEntityValue, safeState, toNumber } from "./commons";
+import { getEntityValue, safeState, toNumber, getEntityBool } from "./commons";
 import { LOC_KEYS } from "./localize-keys";
 import { SabianaVmcMode, toSabianaVmcMode, toSabianaVmcModeIcon, toSabianaVmcModeLocalization } from "./sabiana-vmc-mode";
+import { SabianaEntities } from "./configuration";
+import { HomeAssistant } from "custom-card-helpers";
 declare const __CARD_VERSION__: string;
 
 export function renderCard(this: SabianaVmcCard) {
@@ -17,10 +19,13 @@ export function renderCard(this: SabianaVmcCard) {
   const CARD_VERSION = __CARD_VERSION__;
   const model = safeState(this.hass, this.entities?.model, 'n/a');
   const powerState = safeState(this.hass, this.entities?.power, 'off') === 'on';
+  const alertTitle = getAlertTitle(this.hass, this.entities);
   const boost = safeState(this.hass, this.entities?.boost, 'off') === 'on';
   const boostTitle = boost ? localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.boost_on) : localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.boost_off);
   const bypass = safeState(this.hass, this.entities?.bypass, 'off') === 'on';
   const bypassTitle = bypass ? localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.bypass_on) : localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.bypass_off);
+  const defrost = safeState(this.hass, this.entities?.defrost, 'off') === 'on';
+  const defrostTitle = defrost ? localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.defrost_on) : localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.defrost_off);
   const modeState = safeState(this.hass, this.entities?.mode) || '';
   const programSelection = toNumber(safeState(this.hass, this.entities?.program));
   const manualSpeed = toNumber(safeState(this.hass, this.entities?.fan_speed));
@@ -81,6 +86,13 @@ export function renderCard(this: SabianaVmcCard) {
     <div class="status-indicator">
 
       <ha-icon 
+        class="${alertTitle.length > 0 ? 'alert' : 'hidden-element'}"
+        title="${alertTitle}"
+        icon="mdi:alert"
+        @click="${() => this.openModal(alertTitle)}">
+      </ha-icon>
+
+      <ha-icon 
         class="${!boost ? 'off' : 'on'}"
         title="${boostTitle}"
         icon="mdi:fan-plus"
@@ -92,6 +104,13 @@ export function renderCard(this: SabianaVmcCard) {
         title="${bypassTitle}"
         icon="mdi:debug-step-over"
         @click="${() => this.openModal(bypassTitle)}">
+      </ha-icon>
+
+      <ha-icon 
+        class="${!defrost ? 'off' : 'on'}"
+        title="${defrostTitle}"
+        icon="mdi:car-defrost-front"
+        @click="${() => this.openModal(defrostTitle)}">
       </ha-icon>
 
     </div>
@@ -147,7 +166,7 @@ export function renderCard(this: SabianaVmcCard) {
     <div class="modal" @click="${this.closeModal}">
       <div class="modal-content" @click="${(e:Event)=>e.stopPropagation()}">
         <span class="close" @click="${this.closeModal}">&times;</span>
-        <p>${this.modalMessage}</p>
+        <p style="white-space: pre-line">${this.modalMessage}</p>
       </div>
     </div>` : ''}
 
@@ -211,4 +230,26 @@ function getLabelForProgram(lang: string, program: number): string {
     case 3: return localize(lang, LOC_KEYS.ui.card.sabiana_vmc.programs.p4);
     default: return localize(lang, LOC_KEYS.ui.card.sabiana_vmc.programs.pN, { program: `${program + 1}` });
   };
+}
+
+function getAlertTitle(hass:HomeAssistant, entities?: SabianaEntities): string {
+  let result = '';
+
+  result += getEntityBool(hass, entities?.t1_probe_failure) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.t1_probe_failure) + '\n' : '';
+  result += getEntityBool(hass, entities?.t2_probe_failure) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.t2_probe_failure) + '\n' : '';
+  result += getEntityBool(hass, entities?.t3_probe_failure) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.t3_probe_failure) + '\n' : '';
+  result += getEntityBool(hass, entities?.t4_probe_failure) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.t4_probe_failure) + '\n' : '';
+  result += getEntityBool(hass, entities?.timekeeper_failure) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.timekeeper_failure) + '\n' : '';
+  result += getEntityBool(hass, entities?.frost_alarm_t1_probe) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.frost_alarm_t1_probe) + '\n' : '';
+  result += getEntityBool(hass, entities?.frost_alarm_t2_probe) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.frost_alarm_t2_probe) + '\n' : '';
+  result += getEntityBool(hass, entities?.fireplace_alarm) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.fireplace_alarm) + '\n' : '';
+  result += getEntityBool(hass, entities?.pressure_transducer_failure) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.pressure_transducer_failure) + '\n' : '';
+  result += getEntityBool(hass, entities?.filter_alarm) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.filter_alarm) + '\n' : '';
+  result += getEntityBool(hass, entities?.fans_failure) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.fans_failure) + '\n' : '';
+  result += getEntityBool(hass, entities?.rh_or_co2_sensor_failure) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.rh_or_co2_sensor_failure) + '\n' : '';
+  result += getEntityBool(hass, entities?.fan_thermic_input_alarm) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.fan_thermic_input_alarm) + '\n' : '';
+  result += getEntityBool(hass, entities?.pre_heating_alarm) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.pre_heating_alarm) + '\n' : '';
+  result += getEntityBool(hass, entities?.pre_frost_alarm_t2) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.pre_frost_alarm_t2) + '\n' : '';
+
+  return result;
 }

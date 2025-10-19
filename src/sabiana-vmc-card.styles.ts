@@ -90,6 +90,10 @@ export const cardStyles = css`
     color: var(--disabled-text-color);
   }
 
+  .status-indicator .alert {
+    color: var(--error-color, #d32f2f);
+  }
+
   /* Stili per il pulsante di accensione */
   .power-button {
     border: none;

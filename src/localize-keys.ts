@@ -39,7 +39,26 @@ export const LOC_KEYS = {
           "boost_on": "ui.card.sabiana_vmc.messages.boost_on",
           "boost_off": "ui.card.sabiana_vmc.messages.boost_off",
           "bypass_on": "ui.card.sabiana_vmc.messages.bypass_on",
-          "bypass_off": "ui.card.sabiana_vmc.messages.bypass_off"
+          "bypass_off": "ui.card.sabiana_vmc.messages.bypass_off",
+          "defrost_on": "ui.card.sabiana_vmc.messages.defrost_on",
+          "defrost_off": "ui.card.sabiana_vmc.messages.defrost_off",
+        },
+        "alerts": {
+          "t1_probe_failure": "ui.card.sabiana_vmc.messages.t1_probe_failure",
+          "t2_probe_failure": "ui.card.sabiana_vmc.messages.t2_probe_failure",
+          "t3_probe_failure": "ui.card.sabiana_vmc.messages.t3_probe_failure",
+          "t4_probe_failure": "ui.card.sabiana_vmc.messages.t4_probe_failure",
+          "timekeeper_failure": "ui.card.sabiana_vmc.messages.timekeeper_failure",
+          "frost_alarm_t1_probe": "ui.card.sabiana_vmc.messages.frost_alarm_t1_probe",
+          "frost_alarm_t2_probe": "ui.card.sabiana_vmc.messages.frost_alarm_t2_probe",
+          "fireplace_alarm": "ui.card.sabiana_vmc.messages.fireplace_alarm",
+          "pressure_transducer_failure": "ui.card.sabiana_vmc.messages.pressure_transducer_failure",
+          "filter_alarm": "ui.card.sabiana_vmc.messages.filter_alarm",
+          "fans_failure": "ui.card.sabiana_vmc.messages.fans_failure",
+          "rh_or_co2_sensor_failure": "ui.card.sabiana_vmc.messages.rh_or_co2_sensor_failure",
+          "fan_thermic_input_alarm": "ui.card.sabiana_vmc.messages.fan_thermic_input_alarm",
+          "pre_heating_alarm": "ui.card.sabiana_vmc.messages.pre_heating_alarm",
+          "pre_frost_alarm_t2": "ui.card.sabiana_vmc.messages.pre_frost_alarm_t2"
         },
         "errors": {
           "missing_config": "ui.card.sabiana_vmc.errors.missing_config",

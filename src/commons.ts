@@ -27,6 +27,15 @@ export function withUnit(hass: any, entityId?: string, formattedValue?: string):
 };
 
 /**
+ * Restituisce lo stato di un'entità, o undefined se non disponibile
+ */
+export function getEntityBool(hass: any, entityId?: string): boolean {
+  if (!hass || !entityId) return false;
+  const state = hass.states[entityId]?.state;
+  return state === 'on' || state === 'true' || state === true;
+};
+
+/**
  * Estrae lo stato, lo converte in numero, lo formatta e aggiunge l'unità
  */
 export function getEntityValue(
