@@ -286,7 +286,7 @@ T.elementStyles = [], T.shadowRootOptions = { mode: "open" }, T[R("elementProper
  */
 const j = globalThis, K = j.trustedTypes, Se = K ? K.createPolicy("lit-html", { createHTML: (r) => r }) : void 0, Re = "$lit$", A = `lit$${Math.random().toFixed(9).slice(2)}$`, je = "?" + A, Xe = `<${je}>`, M = document, F = () => M.createComment(""), B = (r) => r === null || typeof r != "object" && typeof r != "function", se = Array.isArray, et = (r) => se(r) || typeof (r == null ? void 0 : r[Symbol.iterator]) == "function", X = `[ 	
 \f\r]`, U = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, Ee = /-->/g, Ce = />/g, S = RegExp(`>|${X}(?:([^\\s"'>=/]+)(${X}*=${X}*(?:[^ 	
-\f\r"'\`<>=]|("|')|))|$)`, "g"), Pe = /'/g, Me = /"/g, De = /^(?:script|style|textarea|title)$/i, tt = (r) => (e, ...t) => ({ _$litType$: r, strings: e, values: t }), E = tt(1), O = Symbol.for("lit-noChange"), _ = Symbol.for("lit-nothing"), ze = /* @__PURE__ */ new WeakMap(), C = M.createTreeWalker(M, 129);
+\f\r"'\`<>=]|("|')|))|$)`, "g"), Pe = /'/g, Me = /"/g, De = /^(?:script|style|textarea|title)$/i, tt = (r) => (e, ...t) => ({ _$litType$: r, strings: e, values: t }), E = tt(1), O = Symbol.for("lit-noChange"), m = Symbol.for("lit-nothing"), ze = /* @__PURE__ */ new WeakMap(), C = M.createTreeWalker(M, 129);
 function Fe(r, e) {
   if (!se(r) || !r.hasOwnProperty("raw")) throw Error("invalid template strings array");
   return Se !== void 0 ? Se.createHTML(e) : e;
@@ -381,7 +381,7 @@ class I {
     return ((e = this._$AM) == null ? void 0 : e._$AU) ?? this._$Cv;
   }
   constructor(e, t, a, i) {
-    this.type = 2, this._$AH = _, this._$AN = void 0, this._$AA = e, this._$AB = t, this._$AM = a, this.options = i, this._$Cv = (i == null ? void 0 : i.isConnected) ?? !0;
+    this.type = 2, this._$AH = m, this._$AN = void 0, this._$AA = e, this._$AB = t, this._$AM = a, this.options = i, this._$Cv = (i == null ? void 0 : i.isConnected) ?? !0;
   }
   get parentNode() {
     let e = this._$AA.parentNode;
@@ -395,7 +395,7 @@ class I {
     return this._$AB;
   }
   _$AI(e, t = this) {
-    e = N(this, e, t), B(e) ? e === _ || e == null || e === "" ? (this._$AH !== _ && this._$AR(), this._$AH = _) : e !== this._$AH && e !== O && this._(e) : e._$litType$ !== void 0 ? this.$(e) : e.nodeType !== void 0 ? this.T(e) : et(e) ? this.k(e) : this._(e);
+    e = N(this, e, t), B(e) ? e === m || e == null || e === "" ? (this._$AH !== m && this._$AR(), this._$AH = m) : e !== this._$AH && e !== O && this._(e) : e._$litType$ !== void 0 ? this.$(e) : e.nodeType !== void 0 ? this.T(e) : et(e) ? this.k(e) : this._(e);
   }
   O(e) {
     return this._$AA.parentNode.insertBefore(e, this._$AB);
@@ -404,7 +404,7 @@ class I {
     this._$AH !== e && (this._$AR(), this._$AH = this.O(e));
   }
   _(e) {
-    this._$AH !== _ && B(this._$AH) ? this._$AA.nextSibling.data = e : this.T(M.createTextNode(e)), this._$AH = e;
+    this._$AH !== m && B(this._$AH) ? this._$AA.nextSibling.data = e : this.T(M.createTextNode(e)), this._$AH = e;
   }
   $(e) {
     var s;
@@ -446,7 +446,7 @@ class Z {
     return this._$AM._$AU;
   }
   constructor(e, t, a, i, s) {
-    this.type = 1, this._$AH = _, this._$AN = void 0, this.element = e, this.name = t, this._$AM = i, this.options = s, a.length > 2 || a[0] !== "" || a[1] !== "" ? (this._$AH = Array(a.length - 1).fill(new String()), this.strings = a) : this._$AH = _;
+    this.type = 1, this._$AH = m, this._$AN = void 0, this.element = e, this.name = t, this._$AM = i, this.options = s, a.length > 2 || a[0] !== "" || a[1] !== "" ? (this._$AH = Array(a.length - 1).fill(new String()), this.strings = a) : this._$AH = m;
   }
   _$AI(e, t = this, a, i) {
     const s = this.strings;
@@ -455,12 +455,12 @@ class Z {
     else {
       const l = e;
       let n, u;
-      for (e = s[0], n = 0; n < s.length - 1; n++) u = N(this, l[a + n], t, n), u === O && (u = this._$AH[n]), o || (o = !B(u) || u !== this._$AH[n]), u === _ ? e = _ : e !== _ && (e += (u ?? "") + s[n + 1]), this._$AH[n] = u;
+      for (e = s[0], n = 0; n < s.length - 1; n++) u = N(this, l[a + n], t, n), u === O && (u = this._$AH[n]), o || (o = !B(u) || u !== this._$AH[n]), u === m ? e = m : e !== m && (e += (u ?? "") + s[n + 1]), this._$AH[n] = u;
     }
     o && !i && this.j(e);
   }
   j(e) {
-    e === _ ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, e ?? "");
+    e === m ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, e ?? "");
   }
 }
 class it extends Z {
@@ -468,7 +468,7 @@ class it extends Z {
     super(...arguments), this.type = 3;
   }
   j(e) {
-    this.element[this.name] = e === _ ? void 0 : e;
+    this.element[this.name] = e === m ? void 0 : e;
   }
 }
 class st extends Z {
@@ -476,7 +476,7 @@ class st extends Z {
     super(...arguments), this.type = 4;
   }
   j(e) {
-    this.element.toggleAttribute(this.name, !!e && e !== _);
+    this.element.toggleAttribute(this.name, !!e && e !== m);
   }
 }
 class ot extends Z {
@@ -484,8 +484,8 @@ class ot extends Z {
     super(e, t, a, i, s), this.type = 5;
   }
   _$AI(e, t = this) {
-    if ((e = N(this, e, t, 0) ?? _) === O) return;
-    const a = this._$AH, i = e === _ && a !== _ || e.capture !== a.capture || e.once !== a.once || e.passive !== a.passive, s = e !== _ && (a === _ || i);
+    if ((e = N(this, e, t, 0) ?? m) === O) return;
+    const a = this._$AH, i = e === m && a !== m || e.capture !== a.capture || e.once !== a.once || e.passive !== a.passive, s = e !== m && (a === m || i);
     i && this.element.removeEventListener(this.name, this, a), s && this.element.addEventListener(this.name, this, e), this._$AH = e;
   }
   handleEvent(e) {
@@ -1078,7 +1078,7 @@ const ht = Ve`
     0%   { transform: rotate(0deg);}
     100% { transform: rotate(360deg);}
   }
-`, _t = {
+`, mt = {
   card: {
     sabiana_vmc: {
       title: "Sabiana VMC",
@@ -1142,8 +1142,8 @@ const ht = Ve`
       version: "Version {version}"
     }
   }
-}, mt = {
-  ui: _t
+}, _t = {
+  ui: mt
 }, ft = {
   card: {
     sabiana_vmc: {
@@ -1211,7 +1211,7 @@ const ht = Ve`
 }, bt = {
   ui: ft
 }, Te = {
-  en: mt,
+  en: _t,
   it: bt
 };
 function Oe(r, e) {
@@ -1239,7 +1239,7 @@ function vt(r, e, t) {
   const a = (s = (i = r.states[e]) == null ? void 0 : i.attributes) == null ? void 0 : s.unit_of_measurement;
   return a ? `${t} ${a}` : t;
 }
-function m(r, e) {
+function _(r, e) {
   var a;
   if (!r || !e) return !1;
   const t = (a = r.states[e]) == null ? void 0 : a.state;
@@ -1352,12 +1352,12 @@ function $t(r) {
   }
 }
 function xt() {
-  var le, ce, de, pe, ue, he, _e, me, fe, be, ge, ve, ye, $e;
+  var le, ce, de, pe, ue, he, me, _e, fe, be, ge, ve, ye, $e;
   if (!this.hass || !this.config)
     return E`<div>Caricamento...</div>`;
   if (typeof this.error == "string" && this.error.length > 0)
     return E`<ha-alert alert-type="error">${this.error}</ha-alert>`;
-  const r = this.hass.language, e = "0.10.19.1760996913172", t = f(this.hass, (le = this.entities) == null ? void 0 : le.model, "n/a"), a = f(this.hass, (ce = this.entities) == null ? void 0 : ce.power, "off") === "on", i = St(this.hass, this.entities), s = f(this.hass, (de = this.entities) == null ? void 0 : de.boost, "off") === "on", o = s ? d(r, c.ui.card.sabiana_vmc.messages.boost_on) : d(r, c.ui.card.sabiana_vmc.messages.boost_off), l = f(this.hass, (pe = this.entities) == null ? void 0 : pe.bypass, "off") === "on", n = l ? d(r, c.ui.card.sabiana_vmc.messages.bypass_on) : d(r, c.ui.card.sabiana_vmc.messages.bypass_off), u = f(this.hass, (ue = this.entities) == null ? void 0 : ue.defrost, "off") === "on", h = u ? d(r, c.ui.card.sabiana_vmc.messages.defrost_on) : d(r, c.ui.card.sabiana_vmc.messages.defrost_off), p = f(this.hass, (he = this.entities) == null ? void 0 : he.mode) || "", b = G(f(this.hass, (_e = this.entities) == null ? void 0 : _e.program)), v = G(f(this.hass, (me = this.entities) == null ? void 0 : me.fan_speed)), w = wt(G(f(this.hass, (fe = this.entities) == null ? void 0 : fe.duty_cycle_fan_1))), Be = a && w > 0 ? "fan-anim" : "", J = 1, ne = 60, Y = G(f(this.hass, (be = this.entities) == null ? void 0 : be.holiday_mode_days), 1), Le = (Y - J) / (ne - J) * 100;
+  const r = this.hass.language, e = "0.10.21.1760998092902", t = f(this.hass, (le = this.entities) == null ? void 0 : le.model, "n/a"), a = f(this.hass, (ce = this.entities) == null ? void 0 : ce.power, "off") === "on", i = St(this.hass, this.entities), s = f(this.hass, (de = this.entities) == null ? void 0 : de.boost, "off") === "on", o = s ? d(r, c.ui.card.sabiana_vmc.messages.boost_on) : d(r, c.ui.card.sabiana_vmc.messages.boost_off), l = f(this.hass, (pe = this.entities) == null ? void 0 : pe.bypass, "off") === "on", n = l ? d(r, c.ui.card.sabiana_vmc.messages.bypass_on) : d(r, c.ui.card.sabiana_vmc.messages.bypass_off), u = f(this.hass, (ue = this.entities) == null ? void 0 : ue.defrost, "off") === "on", h = u ? d(r, c.ui.card.sabiana_vmc.messages.defrost_on) : d(r, c.ui.card.sabiana_vmc.messages.defrost_off), p = f(this.hass, (he = this.entities) == null ? void 0 : he.mode) || "", b = G(f(this.hass, (me = this.entities) == null ? void 0 : me.program)), v = G(f(this.hass, (_e = this.entities) == null ? void 0 : _e.fan_speed)), w = wt(G(f(this.hass, (fe = this.entities) == null ? void 0 : fe.duty_cycle_fan_1))), Be = a && w > 0 ? "fan-anim" : "", J = 1, ne = 60, Y = G(f(this.hass, (be = this.entities) == null ? void 0 : be.holiday_mode_days), 1), Le = (Y - J) / (ne - J) * 100;
   return E`
 <ha-card>
   <div class="spinner ${this.spinner ? "" : "hidden-element"}">
@@ -1580,7 +1580,7 @@ function St(r, e) {
     t.length > 0 && (t += `
 `), t += i;
   };
-  return a(d(r.language, c.ui.card.sabiana_vmc.messages.t1_probe_failure)), m(r, e == null ? void 0 : e.t2_probe_failure) && a(d(r.language, c.ui.card.sabiana_vmc.messages.t2_probe_failure)), m(r, e == null ? void 0 : e.t3_probe_failure) && a(d(r.language, c.ui.card.sabiana_vmc.messages.t3_probe_failure)), m(r, e == null ? void 0 : e.t4_probe_failure) && a(d(r.language, c.ui.card.sabiana_vmc.messages.t4_probe_failure)), m(r, e == null ? void 0 : e.timekeeper_failure) && a(d(r.language, c.ui.card.sabiana_vmc.messages.timekeeper_failure)), m(r, e == null ? void 0 : e.frost_alarm_t1_probe) && a(d(r.language, c.ui.card.sabiana_vmc.messages.frost_alarm_t1_probe)), m(r, e == null ? void 0 : e.frost_alarm_t2_probe) && a(d(r.language, c.ui.card.sabiana_vmc.messages.frost_alarm_t2_probe)), m(r, e == null ? void 0 : e.fireplace_alarm) && a(d(r.language, c.ui.card.sabiana_vmc.messages.fireplace_alarm)), m(r, e == null ? void 0 : e.pressure_transducer_failure) && a(d(r.language, c.ui.card.sabiana_vmc.messages.pressure_transducer_failure)), m(r, e == null ? void 0 : e.filter_alarm) && a(d(r.language, c.ui.card.sabiana_vmc.messages.filter_alarm)), m(r, e == null ? void 0 : e.fans_failure) && a(d(r.language, c.ui.card.sabiana_vmc.messages.fans_failure)), a(d(r.language, c.ui.card.sabiana_vmc.messages.rh_or_co2_sensor_failure)), m(r, e == null ? void 0 : e.rh_or_co2_sensor_failure) && a(d(r.language, c.ui.card.sabiana_vmc.messages.rh_or_co2_sensor_failure)), m(r, e == null ? void 0 : e.fan_thermic_input_alarm) && a(d(r.language, c.ui.card.sabiana_vmc.messages.fan_thermic_input_alarm)), m(r, e == null ? void 0 : e.pre_heating_alarm) && a(d(r.language, c.ui.card.sabiana_vmc.messages.pre_heating_alarm)), m(r, e == null ? void 0 : e.pre_frost_alarm_t2) && a(d(r.language, c.ui.card.sabiana_vmc.messages.pre_frost_alarm_t2)), t;
+  return _(r, e == null ? void 0 : e.t1_probe_failure) && a(d(r.language, c.ui.card.sabiana_vmc.messages.t1_probe_failure)), _(r, e == null ? void 0 : e.t2_probe_failure) && a(d(r.language, c.ui.card.sabiana_vmc.messages.t2_probe_failure)), _(r, e == null ? void 0 : e.t3_probe_failure) && a(d(r.language, c.ui.card.sabiana_vmc.messages.t3_probe_failure)), _(r, e == null ? void 0 : e.t4_probe_failure) && a(d(r.language, c.ui.card.sabiana_vmc.messages.t4_probe_failure)), _(r, e == null ? void 0 : e.timekeeper_failure) && a(d(r.language, c.ui.card.sabiana_vmc.messages.timekeeper_failure)), _(r, e == null ? void 0 : e.frost_alarm_t1_probe) && a(d(r.language, c.ui.card.sabiana_vmc.messages.frost_alarm_t1_probe)), _(r, e == null ? void 0 : e.frost_alarm_t2_probe) && a(d(r.language, c.ui.card.sabiana_vmc.messages.frost_alarm_t2_probe)), _(r, e == null ? void 0 : e.fireplace_alarm) && a(d(r.language, c.ui.card.sabiana_vmc.messages.fireplace_alarm)), _(r, e == null ? void 0 : e.pressure_transducer_failure) && a(d(r.language, c.ui.card.sabiana_vmc.messages.pressure_transducer_failure)), _(r, e == null ? void 0 : e.filter_alarm) && a(d(r.language, c.ui.card.sabiana_vmc.messages.filter_alarm)), _(r, e == null ? void 0 : e.fans_failure) && a(d(r.language, c.ui.card.sabiana_vmc.messages.fans_failure)), _(r, e == null ? void 0 : e.rh_or_co2_sensor_failure) && a(d(r.language, c.ui.card.sabiana_vmc.messages.rh_or_co2_sensor_failure)), _(r, e == null ? void 0 : e.fan_thermic_input_alarm) && a(d(r.language, c.ui.card.sabiana_vmc.messages.fan_thermic_input_alarm)), _(r, e == null ? void 0 : e.pre_heating_alarm) && a(d(r.language, c.ui.card.sabiana_vmc.messages.pre_heating_alarm)), _(r, e == null ? void 0 : e.pre_frost_alarm_t2) && a(d(r.language, c.ui.card.sabiana_vmc.messages.pre_frost_alarm_t2)), t;
 }
 const Et = {
   model: "sensor.@prefix@_blk0_controller_model",
