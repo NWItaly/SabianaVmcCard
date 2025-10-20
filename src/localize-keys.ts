@@ -42,8 +42,6 @@ export const LOC_KEYS = {
           "bypass_off": "ui.card.sabiana_vmc.messages.bypass_off",
           "defrost_on": "ui.card.sabiana_vmc.messages.defrost_on",
           "defrost_off": "ui.card.sabiana_vmc.messages.defrost_off",
-        },
-        "alerts": {
           "t1_probe_failure": "ui.card.sabiana_vmc.messages.t1_probe_failure",
           "t2_probe_failure": "ui.card.sabiana_vmc.messages.t2_probe_failure",
           "t3_probe_failure": "ui.card.sabiana_vmc.messages.t3_probe_failure",
@@ -58,7 +56,8 @@ export const LOC_KEYS = {
           "rh_or_co2_sensor_failure": "ui.card.sabiana_vmc.messages.rh_or_co2_sensor_failure",
           "fan_thermic_input_alarm": "ui.card.sabiana_vmc.messages.fan_thermic_input_alarm",
           "pre_heating_alarm": "ui.card.sabiana_vmc.messages.pre_heating_alarm",
-          "pre_frost_alarm_t2": "ui.card.sabiana_vmc.messages.pre_frost_alarm_t2"
+          "pre_frost_alarm_t2": "ui.card.sabiana_vmc.messages.pre_frost_alarm_t2",
+          "holiday_mode_days_set": "ui.card.sabiana_vmc.messages.holiday_mode_days_set"
         },
         "errors": {
           "missing_config": "ui.card.sabiana_vmc.errors.missing_config",

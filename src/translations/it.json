@@ -53,7 +53,8 @@
           "rh_or_co2_sensor_failure": "Guasto sensore UR o CO₂",
           "fan_thermic_input_alarm": "Allarme ingresso termico ventilatore",
           "pre_heating_alarm": "Allarme preriscaldamento",
-          "pre_frost_alarm_t2": "Preallarme gelo (T2)"
+          "pre_frost_alarm_t2": "Preallarme gelo (T2)",
+          "holiday_mode_days_set": "Giorni di modalità vacanza:"
         },
         "errors": {
           "missing_config": "Configurazione mancante o non valida: {key}.",

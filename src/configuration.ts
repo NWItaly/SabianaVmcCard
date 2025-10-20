@@ -44,6 +44,7 @@ const ENTITY_BASE = {
     , fan_thermic_input_alarm: 'binary_sensor.@prefix@_blk1_fan_thermic_input_alarm'
     , pre_heating_alarm: 'binary_sensor.@prefix@_blk1_pre_heating_alarm'
     , pre_frost_alarm_t2: 'binary_sensor.@prefix@_blk1_pre_frost_alarm_t2'
+    , holiday_mode_days: 'number.@prefix@_vmc_holiday_mode_days'
 } as const;
 
 /**

@@ -53,7 +53,8 @@
           "rh_or_co2_sensor_failure": "RH or CO2 sensor failure",
           "fan_thermic_input_alarm": "Fan thermic input alarm",
           "pre_heating_alarm": "Pre Heating alarm",
-          "pre_frost_alarm_t2": "Pre frost alarm (T2)"
+          "pre_frost_alarm_t2": "Pre frost alarm (T2)",
+          "holiday_mode_days_set": "Holiday mode days:"
         },
         "errors": {
           "missing_config": "Missing or invalid configuration: {key}",

@@ -31,7 +31,9 @@ La card rileva automaticamente la lingua dell'interfaccia e mostra i testi trado
 ## 📚 Guide dettagliate
 - 📖 [Installazione](docs/INSTALLATION.md)
 - 📖 [Sviluppo](docs/DEVELOP.md)
+- 📖 [Dettagli tecnici](docs/TECHNICAL_DETAILS.md)
 - 📖 [Best practice](docs/BESTPRACTICE.md)
+- 📖 [Funzioni disponibili](docs/FUNCTIONS.md)
 
 ## Licenza d'uso
 Questo software è fornito "così com'è", senza alcuna garanzia espressa o implicita.
@@ -45,7 +47,6 @@ L'autore declina ogni responsabilità per eventuali danni diretti o indiretti de
 
 ### TODO
 
-- Integrazione con HACS
 - Convertire l'attuale localizzazione con la versione i18 di HA.
 - Visualizzare la maggior parte dei parametri a disposizione (almeno i più utili)
 - Permettere di modificare i parametri della VMC

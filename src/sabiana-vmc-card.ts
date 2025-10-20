@@ -136,6 +136,16 @@ export class SabianaVmcCard
     });
   }
 
+  protected setHolidayModeModeDays(days: number) {
+    if (!this.entities?.holiday_mode_days) return;
+    if( days < 1 ) days = 1;
+    if( days > 60 ) days = 60;
+    this.hass.callService('number', 'set_value', {
+      entity_id: this.entities?.holiday_mode_days,
+      value: days
+    });
+  }
+
   //#endregion
 
   //#region Modale

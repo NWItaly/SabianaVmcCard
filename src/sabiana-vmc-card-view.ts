@@ -32,6 +32,11 @@ export function renderCard(this: SabianaVmcCard) {
   const realSpeed = getSpeedStep(toNumber(safeState(this.hass, this.entities?.duty_cycle_fan_1)));
   const fanAnim = powerState && realSpeed > 0 ? "fan-anim" : "";
 
+  const holidayModeDays_Min = 1;
+  const holidayModeDays_Max = 60;
+  const holidayModeDays_Value = toNumber(safeState(this.hass, this.entities?.holiday_mode_days), 1);
+  const holidayModeDays_Percentage = ((holidayModeDays_Value - holidayModeDays_Min) / (holidayModeDays_Max - holidayModeDays_Min)) * 100;
+
   return html`
 <ha-card>
   <div class="spinner ${!this.spinner ? 'hidden-element' : ''}">
@@ -157,6 +162,24 @@ export function renderCard(this: SabianaVmcCard) {
       `)}
   </div>
 
+  <div
+    class="holiday-mode-days ${modeState !== SabianaVmcMode.Holiday ? 'hidden-element' : ''} range-container">
+    <div class="range-header">
+        <span class="range-label">${localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.holiday_mode_days_set)}</span>
+        <span class="range-value" id="valueDisplay">${holidayModeDays_Value}</span>
+    </div>
+    <div class="range-wrapper">
+        <div class="range-progress" style="width: ${holidayModeDays_Percentage}%"></div>
+        <input type="range" id="brightness" 
+          min="${holidayModeDays_Min}"
+          max="${holidayModeDays_Max}"
+          step="1"
+          .value="${holidayModeDays_Value}"
+          @input="${(e: Event) => this.setHolidayModeModeDays(Number((e.target as HTMLInputElement).value))}"
+        >
+    </div>    
+  </div>
+
   <div class="footer">
     <div></div>
     <div class="version">v${CARD_VERSION}</div>
@@ -164,7 +187,7 @@ export function renderCard(this: SabianaVmcCard) {
 
   ${this.modalMessage.length > 0 ? html`
     <div class="modal" @click="${this.closeModal}">
-      <div class="modal-content" @click="${(e:Event)=>e.stopPropagation()}">
+      <div class="modal-content" @click="${(e: Event) => e.stopPropagation()}">
         <span class="close" @click="${this.closeModal}">&times;</span>
         <p style="white-space: pre-line">${this.modalMessage}</p>
       </div>
@@ -213,7 +236,7 @@ function getFanAnimationSpeed(speed: number): string {
 }
 
 function getIconForSpeed(speed: number): string {
-  switch (speed) { 
+  switch (speed) {
     case 0: return "mdi:fan-speed-1";
     case 1: return "mdi:fan-speed-2";
     case 2: return "mdi:fan-speed-3";
@@ -232,24 +255,31 @@ function getLabelForProgram(lang: string, program: number): string {
   };
 }
 
-function getAlertTitle(hass:HomeAssistant, entities?: SabianaEntities): string {
+function getAlertTitle(hass: HomeAssistant, entities?: SabianaEntities): string {
   let result = '';
 
-  result += getEntityBool(hass, entities?.t1_probe_failure) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.t1_probe_failure) + '\n' : '';
-  result += getEntityBool(hass, entities?.t2_probe_failure) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.t2_probe_failure) + '\n' : '';
-  result += getEntityBool(hass, entities?.t3_probe_failure) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.t3_probe_failure) + '\n' : '';
-  result += getEntityBool(hass, entities?.t4_probe_failure) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.t4_probe_failure) + '\n' : '';
-  result += getEntityBool(hass, entities?.timekeeper_failure) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.timekeeper_failure) + '\n' : '';
-  result += getEntityBool(hass, entities?.frost_alarm_t1_probe) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.frost_alarm_t1_probe) + '\n' : '';
-  result += getEntityBool(hass, entities?.frost_alarm_t2_probe) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.frost_alarm_t2_probe) + '\n' : '';
-  result += getEntityBool(hass, entities?.fireplace_alarm) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.fireplace_alarm) + '\n' : '';
-  result += getEntityBool(hass, entities?.pressure_transducer_failure) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.pressure_transducer_failure) + '\n' : '';
-  result += getEntityBool(hass, entities?.filter_alarm) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.filter_alarm) + '\n' : '';
-  result += getEntityBool(hass, entities?.fans_failure) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.fans_failure) + '\n' : '';
-  result += getEntityBool(hass, entities?.rh_or_co2_sensor_failure) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.rh_or_co2_sensor_failure) + '\n' : '';
-  result += getEntityBool(hass, entities?.fan_thermic_input_alarm) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.fan_thermic_input_alarm) + '\n' : '';
-  result += getEntityBool(hass, entities?.pre_heating_alarm) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.pre_heating_alarm) + '\n' : '';
-  result += getEntityBool(hass, entities?.pre_frost_alarm_t2) ? localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.alerts.pre_frost_alarm_t2) + '\n' : '';
+  const addLine = (line: string) => {
+    if (result.length > 0) {
+      result += '\n';
+    }
+    result += line;
+  };
+
+  if (getEntityBool(hass, entities?.t1_probe_failure)) addLine(localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.messages.t1_probe_failure));
+  if (getEntityBool(hass, entities?.t2_probe_failure)) addLine(localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.messages.t2_probe_failure));
+  if (getEntityBool(hass, entities?.t3_probe_failure)) addLine(localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.messages.t3_probe_failure));
+  if (getEntityBool(hass, entities?.t4_probe_failure)) addLine(localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.messages.t4_probe_failure));
+  if (getEntityBool(hass, entities?.timekeeper_failure)) addLine(localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.messages.timekeeper_failure));
+  if (getEntityBool(hass, entities?.frost_alarm_t1_probe)) addLine(localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.messages.frost_alarm_t1_probe));
+  if (getEntityBool(hass, entities?.frost_alarm_t2_probe)) addLine(localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.messages.frost_alarm_t2_probe));
+  if (getEntityBool(hass, entities?.fireplace_alarm)) addLine(localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.messages.fireplace_alarm));
+  if (getEntityBool(hass, entities?.pressure_transducer_failure)) addLine(localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.messages.pressure_transducer_failure));
+  if (getEntityBool(hass, entities?.filter_alarm)) addLine(localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.messages.filter_alarm));
+  if (getEntityBool(hass, entities?.fans_failure)) addLine(localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.messages.fans_failure));
+  if (getEntityBool(hass, entities?.rh_or_co2_sensor_failure)) addLine(localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.messages.rh_or_co2_sensor_failure));
+  if (getEntityBool(hass, entities?.fan_thermic_input_alarm)) addLine(localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.messages.fan_thermic_input_alarm));
+  if (getEntityBool(hass, entities?.pre_heating_alarm)) addLine(localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.messages.pre_heating_alarm));
+  if (getEntityBool(hass, entities?.pre_frost_alarm_t2)) addLine(localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.messages.pre_frost_alarm_t2));
 
   return result;
 }
