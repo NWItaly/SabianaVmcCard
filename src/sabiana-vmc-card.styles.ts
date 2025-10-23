@@ -432,7 +432,7 @@ export const cardStyles = css`
     margin: 15% auto;
     padding: 16px;
     border-radius: 8px;
-    width: 300px;
+    width: 320px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.2);
   }
   .close {

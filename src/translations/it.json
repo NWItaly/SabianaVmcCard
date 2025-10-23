@@ -54,7 +54,9 @@
           "fan_thermic_input_alarm": "Allarme ingresso termico ventilatore",
           "pre_heating_alarm": "Allarme preriscaldamento",
           "pre_frost_alarm_t2": "Preallarme gelo (T2)",
-          "holiday_mode_days_set": "Giorni di modalità vacanza:"
+          "holiday_mode_days_set": "Giorni di modalità vacanza:",
+          "temp_for_free_cooling_set": "Valore di riferimento per il raffrescamento (°C):",
+          "temp_for_free_heating_set": "Valore di riferimento per il riscaldamento (°C):"
         },
         "errors": {
           "missing_config": "Configurazione mancante o non valida: {key}.",

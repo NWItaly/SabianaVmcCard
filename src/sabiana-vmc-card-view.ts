@@ -37,6 +37,9 @@ export function renderCard(this: SabianaVmcCard) {
   const holidayModeDays_Value = toNumber(safeState(this.hass, this.entities?.holiday_mode_days), 1);
   const holidayModeDays_Percentage = ((holidayModeDays_Value - holidayModeDays_Min) / (holidayModeDays_Max - holidayModeDays_Min)) * 100;
 
+  const temp_for_free_cooling = toNumber(safeState(this.hass, this.entities?.temp_for_free_cooling), 26);
+  const temp_for_free_heating = toNumber(safeState(this.hass, this.entities?.temp_for_free_heating), 20);
+
   return html`
 <ha-card>
   <div class="spinner ${!this.spinner ? 'hidden-element' : ''}">
@@ -108,7 +111,7 @@ export function renderCard(this: SabianaVmcCard) {
         class="${!bypass ? 'off' : 'on'}"
         title="${bypassTitle}"
         icon="mdi:debug-step-over"
-        @click="${() => this.openModal(bypassTitle)}">
+        @click="${() => { this.modalTemp4Bypass = true; this.openModal(bypassTitle) }}">
       </ha-icon>
 
       <ha-icon 
@@ -164,20 +167,12 @@ export function renderCard(this: SabianaVmcCard) {
 
   <div
     class="holiday-mode-days ${modeState !== SabianaVmcMode.Holiday ? 'hidden-element' : ''} range-container">
-    <div class="range-header">
-        <span class="range-label">${localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.holiday_mode_days_set)}</span>
-        <span class="range-value" id="valueDisplay">${holidayModeDays_Value}</span>
-    </div>
-    <div class="range-wrapper">
-        <div class="range-progress" style="width: ${holidayModeDays_Percentage}%"></div>
-        <input type="range" id="brightness" 
-          min="${holidayModeDays_Min}"
-          max="${holidayModeDays_Max}"
-          step="1"
-          .value="${holidayModeDays_Value}"
-          @input="${(e: Event) => this.setHolidayModeModeDays(Number((e.target as HTMLInputElement).value))}"
-        >
-    </div>    
+    ${renderRangeSlider(localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.holiday_mode_days_set),
+    holidayModeDays_Value,
+    1,
+    60,
+    (v) => this.setHolidayModeModeDays(v)
+  )}
   </div>
 
   <div class="footer">
@@ -190,6 +185,20 @@ export function renderCard(this: SabianaVmcCard) {
       <div class="modal-content" @click="${(e: Event) => e.stopPropagation()}">
         <span class="close" @click="${this.closeModal}">&times;</span>
         <p style="white-space: pre-line">${this.modalMessage}</p>
+
+        ${this.modalTemp4Bypass ? html`
+          ${renderRangeSlider(localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.temp_for_free_cooling_set),
+    temp_for_free_cooling,
+    10,
+    35,
+    (v) => this.setTempForFreeCooling(v)
+  )}
+          ${renderRangeSlider(localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.temp_for_free_heating_set),
+    temp_for_free_heating,
+    10,
+    30,
+    (v) => this.setTempForFreeHeating(v)
+  )}` : ''}
       </div>
     </div>` : ''}
 
@@ -282,4 +291,34 @@ function getAlertTitle(hass: HomeAssistant, entities?: SabianaEntities): string 
   if (getEntityBool(hass, entities?.pre_frost_alarm_t2)) addLine(localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.messages.pre_frost_alarm_t2));
 
   return result;
+}
+
+function renderRangeSlider(
+  label: string,
+  value: number,
+  min: number,
+  max: number,
+  onChange: (value: number) => void
+) {
+  const percentage = ((value - min) / (max - min)) * 100;
+
+  return html`
+      <div class="range-container">
+        <div class="range-header">
+          <span class="range-label">${label}</span>
+          <span class="range-value">${value}</span>
+        </div>
+        <div class="range-wrapper">
+          <div class="range-progress" style="width: ${percentage}%"></div>
+          <input 
+            type="range" 
+            min="${min}" 
+            max="${max}" 
+            step="1"
+            .value="${value}"
+            @input="${(e: Event) => onChange(Number((e.target as HTMLInputElement).value))}"
+          >
+        </div>
+      </div>
+    `;
 }

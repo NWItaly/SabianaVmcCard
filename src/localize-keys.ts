@@ -57,7 +57,9 @@ export const LOC_KEYS = {
           "fan_thermic_input_alarm": "ui.card.sabiana_vmc.messages.fan_thermic_input_alarm",
           "pre_heating_alarm": "ui.card.sabiana_vmc.messages.pre_heating_alarm",
           "pre_frost_alarm_t2": "ui.card.sabiana_vmc.messages.pre_frost_alarm_t2",
-          "holiday_mode_days_set": "ui.card.sabiana_vmc.messages.holiday_mode_days_set"
+          "holiday_mode_days_set": "ui.card.sabiana_vmc.messages.holiday_mode_days_set",
+          "temp_for_free_cooling_set": "ui.card.sabiana_vmc.messages.temp_for_free_cooling_set",
+          "temp_for_free_heating_set": "ui.card.sabiana_vmc.messages.temp_for_free_heating_set"
         },
         "errors": {
           "missing_config": "ui.card.sabiana_vmc.errors.missing_config",

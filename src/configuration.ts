@@ -45,6 +45,8 @@ const ENTITY_BASE = {
     , pre_heating_alarm: 'binary_sensor.@prefix@_blk1_pre_heating_alarm'
     , pre_frost_alarm_t2: 'binary_sensor.@prefix@_blk1_pre_frost_alarm_t2'
     , holiday_mode_days: 'number.@prefix@_vmc_holiday_mode_days'
+    , temp_for_free_cooling: 'number.@prefix@_blk2_temp_for_free_cooling_set'
+    , temp_for_free_heating: 'number.@prefix@_blk2_temp_for_free_heating_set'
 } as const;
 
 /**
