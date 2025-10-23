@@ -33,8 +33,8 @@
           "pN": "Personalizzato {program}."
         },
         "messages": {
-          "boost_on": "La modalità Boost è attiva.",
-          "boost_off": "La modalità Boost è disattiva.",
+          "boost_on": "La modalità Festa/Boost è attiva.",
+          "boost_off": "La modalità Festa/Boost è disattiva.",
           "bypass_on": "La modalità Bypass è attiva.",
           "bypass_off": "La modalità Bypass è disattiva.",
           "defrost_on": "Ciclo di scongelamento attivo.",
@@ -56,7 +56,8 @@
           "pre_frost_alarm_t2": "Preallarme gelo (T2)",
           "holiday_mode_days_set": "Giorni di modalità vacanza:",
           "temp_for_free_cooling_set": "Valore di riferimento per il raffrescamento (°C):",
-          "temp_for_free_heating_set": "Valore di riferimento per il riscaldamento (°C):"
+          "temp_for_free_heating_set": "Valore di riferimento per il riscaldamento (°C):",
+          "boost_time_set": "Durata della modalità Festa/Boost (°C):"
         },
         "errors": {
           "missing_config": "Configurazione mancante o non valida: {key}.",

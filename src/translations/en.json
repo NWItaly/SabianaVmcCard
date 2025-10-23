@@ -56,7 +56,8 @@
           "pre_frost_alarm_t2": "Pre frost alarm (T2)",
           "holiday_mode_days_set": "Holiday mode days:",
           "temp_for_free_cooling_set": "Free Cooling Temperature Setpoint (°C):",
-          "temp_for_free_heating_set": "Free Heating Temperature Setpoint (°C):"
+          "temp_for_free_heating_set": "Free Heating Temperature Setpoint (°C):",
+          "boost_time_set": "Boost/Party time (min):"
         },
         "errors": {
           "missing_config": "Missing or invalid configuration: {key}",

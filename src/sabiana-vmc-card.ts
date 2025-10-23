@@ -21,6 +21,7 @@ export class SabianaVmcCard
   @state() protected error?: string;
   @state() protected spinner: boolean = false;
   @state() protected modalTemp4Bypass: boolean = false;
+  @state() protected modalBoost: boolean = false;
 
   static styles = cardStyles;
 
@@ -156,6 +157,7 @@ export class SabianaVmcCard
       value: temp
     });
   }
+  
   protected setTempForFreeHeating(temp: number) {
     if (!this.entities?.temp_for_free_heating) return;
     if( temp < 10 ) temp = 10;
@@ -163,6 +165,16 @@ export class SabianaVmcCard
     this.hass.callService('number', 'set_value', {
       entity_id: this.entities?.temp_for_free_heating,
       value: temp
+    });
+  }
+
+  protected setBoostTime(minutes: number) {
+    if (!this.entities?.boost_time) return;
+    if( minutes < 15 ) minutes = 15;
+    if( minutes > 240 ) minutes = 240;
+    this.hass.callService('number', 'set_value', {
+      entity_id: this.entities?.boost_time,
+      value: minutes
     });
   }
 
@@ -176,6 +188,7 @@ export class SabianaVmcCard
   closeModal() {
     this.modalMessage = "";
     this.modalTemp4Bypass = false;
+    this.modalBoost = false;
   }
   //#endregion
   

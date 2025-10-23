@@ -33,13 +33,10 @@ export function renderCard(this: SabianaVmcCard) {
   const realSpeed = getSpeedStep(toNumber(safeState(this.hass, this.entities?.duty_cycle_fan_1)));
   const fanAnim = powerState && realSpeed > 0 ? "fan-anim" : "";
 
-  const holidayModeDays_Min = 1;
-  const holidayModeDays_Max = 60;
-  const holidayModeDays_Value = toNumber(safeState(this.hass, this.entities?.holiday_mode_days), 1);
-  const holidayModeDays_Percentage = ((holidayModeDays_Value - holidayModeDays_Min) / (holidayModeDays_Max - holidayModeDays_Min)) * 100;
-
+  const holidayModeDays = toNumber(safeState(this.hass, this.entities?.holiday_mode_days), 1);
   const temp_for_free_cooling = toNumber(safeState(this.hass, this.entities?.temp_for_free_cooling), 26);
   const temp_for_free_heating = toNumber(safeState(this.hass, this.entities?.temp_for_free_heating), 20);
+  const boost_time = toNumber(safeState(this.hass, this.entities?.boost_time), 180);
 
   return html`
 <ha-card>
@@ -105,7 +102,7 @@ export function renderCard(this: SabianaVmcCard) {
         class="${!boost ? 'off' : 'on'}"
         title="${boostTitle}"
         icon="mdi:fan-plus"
-        @click="${() => this.openModal(boostTitle)}">
+        @click="${() => { this.modalBoost = true; this.openModal(boostTitle)}}">
       </ha-icon>
 
       <ha-icon 
@@ -172,7 +169,7 @@ export function renderCard(this: SabianaVmcCard) {
       label="${localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.holiday_mode_days_set)}" 
       .min="${1}" 
       .max="${60}"
-      .value="${holidayModeDays_Value}"
+      .value="${holidayModeDays}"
       @value-changed="${(e: CustomEvent) => this.setHolidayModeModeDays(e.detail.value)}"
       ></range-slider>
   </div>
@@ -205,6 +202,17 @@ export function renderCard(this: SabianaVmcCard) {
             @value-changed="${(e: CustomEvent) => this.setTempForFreeHeating(e.detail.value)}"
             ></range-slider>
         ` : ''}
+
+        ${this.modalBoost ? html`
+          <range-slider 
+            label="${localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.boost_time_set)}" 
+            .min="${15}" 
+            .max="${240}"
+            .value="${boost_time}"
+            @value-changed="${(e: CustomEvent) => this.setBoostTime(e.detail.value)}"
+            ></range-slider>
+        ` : ''}
+
       </div>
     </div>` : ''}
 

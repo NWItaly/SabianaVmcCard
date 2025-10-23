@@ -47,6 +47,7 @@ const ENTITY_BASE = {
     , holiday_mode_days: 'number.@prefix@_vmc_holiday_mode_days'
     , temp_for_free_cooling: 'number.@prefix@_blk2_temp_for_free_cooling_set'
     , temp_for_free_heating: 'number.@prefix@_blk2_temp_for_free_heating_set'
+    , boost_time: 'number.@prefix@_blk2_boost_time'
 } as const;
 
 /**
