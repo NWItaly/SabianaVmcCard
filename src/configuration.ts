@@ -11,9 +11,9 @@ export interface SabianaVmcCardConfig {
  */
 const ENTITY_BASE = {
     model: 'sensor.@prefix@_blk0_controller_model'
-    , temp_out: 'sensor.@prefix@_blk1_temperature_t1'
-    , temp_in: 'sensor.@prefix@_blk1_temperature_t2'
-    , temp_exhaust: 'sensor.@prefix@_blk1_temperature_t3'
+    , temp_external: 'sensor.@prefix@_blk1_temperature_t1'
+    , temp_in: 'sensor.@prefix@_blk1_temperature_t3'
+    , temp_flow: 'sensor.@prefix@_blk1_temperature_t2'
     , temp_disposal: 'sensor.@prefix@_blk1_temperature_t4'
     , power: 'switch.@prefix@_vmc_power'
     , mode: 'sensor.@prefix@_blk3_mode_selection'
@@ -48,6 +48,9 @@ const ENTITY_BASE = {
     , temp_for_free_cooling: 'number.@prefix@_blk2_temp_for_free_cooling_set'
     , temp_for_free_heating: 'number.@prefix@_blk2_temp_for_free_heating_set'
     , boost_time: 'number.@prefix@_blk2_boost_time'
+    , filter_counter: 'sensor.@prefix@_blk1_filter_counter_divided_by_15_minutes'
+    , filter_life: 'number.@prefix@_blk2_filter_life'
+    , reset_filter_counter: 'button.@prefix@_reset_filter_counter'
 } as const;
 
 /**

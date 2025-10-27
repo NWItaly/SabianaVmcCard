@@ -1,7 +1,7 @@
 import { html } from "lit";
 import { SabianaVmcCard } from "./sabiana-vmc-card";
 import { localize } from "./localize";
-import { getEntityValue, safeState, toNumber, getEntityBool } from "./commons";
+import { getEntityValue, safeState, toNumber, getEntityBool, formatNumber } from "./commons";
 import { LOC_KEYS } from "./localize-keys";
 import { SabianaVmcMode, toSabianaVmcMode, toSabianaVmcModeIcon, toSabianaVmcModeLocalization } from "./sabiana-vmc-mode";
 import { SabianaEntities } from "./configuration";
@@ -20,7 +20,9 @@ export function renderCard(this: SabianaVmcCard) {
   const CARD_VERSION = __CARD_VERSION__;
   const model = safeState(this.hass, this.entities?.model, 'n/a');
   const powerState = safeState(this.hass, this.entities?.power, 'off') === 'on';
-  const alertTitle = getAlertTitle(this.hass, this.entities);
+  const time2ReplaceFilter = calcTime2ReplaceFilter(this.hass, lang, this.entities);
+  const alerts = getAlertTitle(this.hass, this.entities);
+  const alertTitle = alerts || localize(this.hass.language, LOC_KEYS.ui.card.sabiana_vmc.messages.no_alert);
   const boost = safeState(this.hass, this.entities?.boost, 'off') === 'on';
   const boostTitle = boost ? localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.boost_on) : localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.boost_off);
   const bypass = safeState(this.hass, this.entities?.bypass, 'off') === 'on';
@@ -37,6 +39,7 @@ export function renderCard(this: SabianaVmcCard) {
   const temp_for_free_cooling = toNumber(safeState(this.hass, this.entities?.temp_for_free_cooling), 26);
   const temp_for_free_heating = toNumber(safeState(this.hass, this.entities?.temp_for_free_heating), 20);
   const boost_time = toNumber(safeState(this.hass, this.entities?.boost_time), 180);
+  const filter_life = toNumber(safeState(this.hass, this.entities?.filter_life), 180);
 
   return html`
 <ha-card>
@@ -59,20 +62,44 @@ export function renderCard(this: SabianaVmcCard) {
 
     <div class="temps">
       <div>
+        <ha-icon 
+          title="${localize(lang, LOC_KEYS.ui.card.sabiana_vmc.temperature.internal)}"
+          icon="mdi:home-thermometer"
+          @click="${() => this.openModal(localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.temperature_in))}">
+        </ha-icon>
         <div>${getEntityValue(this.hass, this.entities?.temp_in)}</div>
-        <div class="label">${localize(lang, LOC_KEYS.ui.card.sabiana_vmc.temperature.internal)}</div>
+      </div>      
+      <div>
+        <ha-icon 
+          title="${localize(lang, LOC_KEYS.ui.card.sabiana_vmc.temperature.flow)}"
+          icon="mdi:home-import-outline"
+          @click="${() => this.openModal(localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.temperature_flow))}">
+        </ha-icon>
+        <div>${getEntityValue(this.hass, this.entities?.temp_flow)}</div>
       </div>
       <div>
-        <div>${getEntityValue(this.hass, this.entities?.temp_out)}</div>
-        <div class="label">${localize(lang, LOC_KEYS.ui.card.sabiana_vmc.temperature.external)}</div>
+        <ha-icon 
+          title="${localize(lang, LOC_KEYS.ui.card.sabiana_vmc.temperature.efficiency)}"
+          icon="mdi:swap-vertical"
+          @click="${() => this.openModal(localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.efficiency))}">
+        </ha-icon>
+        <div>${calcEfficiency(this.hass, this.entities)} %</div>
       </div>
       <div>
-        <div>${getEntityValue(this.hass, this.entities?.temp_exhaust)}</div>
-        <div class="label">${localize(lang, LOC_KEYS.ui.card.sabiana_vmc.temperature.exhaust)}</div>
-      </div>
-      <div>
+        <ha-icon 
+          title="${localize(lang, LOC_KEYS.ui.card.sabiana_vmc.temperature.disposal)}"
+          icon="mdi:home-export-outline"
+          @click="${() => this.openModal(localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.temperature_disposal))}">
+        </ha-icon>
         <div>${getEntityValue(this.hass, this.entities?.temp_disposal)}</div>
-        <div class="label">${localize(lang, LOC_KEYS.ui.card.sabiana_vmc.temperature.disposal)}</div>
+      </div>
+      <div>
+        <ha-icon 
+          title="${localize(lang, LOC_KEYS.ui.card.sabiana_vmc.temperature.external)}"
+          icon="mdi:home-thermometer-outline"
+          @click="${() => this.openModal(localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.temperature_out))}">
+        </ha-icon>
+        <div>${getEntityValue(this.hass, this.entities?.temp_external)}</div>
       </div>
     </div>
 
@@ -84,7 +111,7 @@ export function renderCard(this: SabianaVmcCard) {
         fill="currentColor"
         style="${realSpeed > 0 ? `animation-duration: ${getFanAnimationSpeed(realSpeed)};` : ''}"
         viewBox="0 0 24 24"
-        width="112" height="112">
+        width="140" height="140">
         <path d="M12,11A1,1 0 0,0 11,12A1,1 0 0,0 12,13A1,1 0 0,0 13,12A1,1 0 0,0 12,11M12.5,2C17,2 17.11,5.57 14.75,6.75C13.76,7.24 13.32,8.29 13.13,9.22C13.61,9.42 14.03,9.73 14.35,10.13C18.05,8.13 22.03,8.92 22.03,12.5C22.03,17 18.46,17.1 17.28,14.73C16.78,13.74 15.72,13.3 14.79,13.11C14.59,13.59 14.28,14 13.88,14.34C15.87,18.03 15.08,22 11.5,22C7,22 6.91,18.42 9.27,17.24C10.25,16.75 10.69,15.71 10.89,14.79C10.4,14.59 9.97,14.27 9.65,13.87C5.96,15.85 2,15.07 2,11.5C2,7 5.56,6.89 6.74,9.26C7.24,10.25 8.29,10.68 9.22,10.87C9.41,10.39 9.73,9.97 10.14,9.65C8.15,5.96 8.94,2 12.5,2Z" />
       </svg>
     </div>
@@ -92,17 +119,24 @@ export function renderCard(this: SabianaVmcCard) {
     <div class="status-indicator">
 
       <ha-icon 
-        class="${alertTitle.length > 0 ? 'alert' : 'hidden-element'}"
+        class="${alerts?.length > 0 ? 'alert' : 'off'}"
         title="${alertTitle}"
         icon="mdi:alert"
         @click="${() => this.openModal(alertTitle)}">
       </ha-icon>
 
       <ha-icon 
+        class="${time2ReplaceFilter.days <= 0 ? 'alert' : time2ReplaceFilter.days < 10 ? 'warning' : 'off'}"
+        title="${time2ReplaceFilter.title}"
+        icon="mdi:air-filter"
+        @click="${() => { this.modalFilterLife = true; this.openModal(time2ReplaceFilter.message) }}">
+      </ha-icon>
+
+      <ha-icon 
         class="${!boost ? 'off' : 'on'}"
         title="${boostTitle}"
         icon="mdi:fan-plus"
-        @click="${() => { this.modalBoost = true; this.openModal(boostTitle)}}">
+        @click="${() => { this.modalBoost = true; this.openModal(boostTitle) }}">
       </ha-icon>
 
       <ha-icon 
@@ -213,6 +247,27 @@ export function renderCard(this: SabianaVmcCard) {
             ></range-slider>
         ` : ''}
 
+        ${this.modalFilterLife ? html`
+          <range-slider 
+            label="${localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.filter_life)}" 
+            .min="${30}" 
+            .max="${400}"
+            .value="${filter_life}"
+            @value-changed="${(e: CustomEvent) => this.setFilterLife(e.detail.value)}"
+            ></range-slider>
+
+          <div
+            class="program-selection">
+            <button 
+              aria-label="${localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.filter_reset)}"
+              title="${localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.filter_reset)}"
+              class="program-button"
+              @click="${() => this.resetFilterCounter()}">
+              <ha-icon icon="mdi:filter-check"></ha-icon>
+            </button>
+          </div>
+        ` : ''}
+
       </div>
     </div>` : ''}
 
@@ -303,6 +358,75 @@ function getAlertTitle(hass: HomeAssistant, entities?: SabianaEntities): string 
   if (getEntityBool(hass, entities?.fan_thermic_input_alarm)) addLine(localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.messages.fan_thermic_input_alarm));
   if (getEntityBool(hass, entities?.pre_heating_alarm)) addLine(localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.messages.pre_heating_alarm));
   if (getEntityBool(hass, entities?.pre_frost_alarm_t2)) addLine(localize(hass.language, LOC_KEYS.ui.card.sabiana_vmc.messages.pre_frost_alarm_t2));
+
+  return result;
+}
+
+function calcEfficiency(hass: HomeAssistant, entities?: SabianaEntities): number {
+  const tempIn = toNumber(safeState(hass, entities?.temp_in));
+  const tempExternal = toNumber(safeState(hass, entities?.temp_external));
+  const tempFlow = toNumber(safeState(hass, entities?.temp_flow));
+  const tempDisposal = toNumber(safeState(hass, entities?.temp_disposal));
+
+  const deltaSupply = tempFlow - tempExternal;   // variazione subita dall'aria immessa
+  const deltaExtract = tempIn - tempDisposal;    // variazione subita dall'aria estratta
+
+  let efficiency = 0;
+
+  // Verifica validità dei sensori
+  if (isFinite(deltaSupply) && isFinite(deltaExtract) && Math.abs(deltaExtract) > 0.5) {
+
+    // Modalità riscaldamento (aria esterna più fredda dell’estratta)
+    if (tempExternal < tempIn) {
+      // Heating
+      efficiency = (deltaSupply / deltaExtract) * 100;
+    }
+    // Modalità raffrescamento (aria esterna più calda dell’estratta)
+    else if (tempExternal > tempIn) {
+      // Cooling
+      efficiency = (-(deltaSupply) / -(deltaExtract)) * 100; // stesso concetto ma con segni invertiti
+    }
+
+    // Caso bypass: nessun recupero sensibile (mandata ≈ esterna)
+    if (Math.abs(tempFlow - tempExternal) < 0.5) {
+      // Bypass
+      efficiency = 0;
+    }
+
+    // Clamp tra 0 e 100 per evitare valori assurdi
+    if (efficiency !== undefined) {
+      efficiency = Math.max(0, Math.min(100, efficiency));
+      efficiency = Math.round(efficiency);
+    }
+  }
+
+  return efficiency;
+}
+
+function calcTime2ReplaceFilter(hass: HomeAssistant, lang: string, entities?: SabianaEntities): { days: number, title: string, message: string } {
+  let result = { days: 0, title: 'N/A', message: '' };
+  const filter_counter = toNumber(safeState(hass, entities?.filter_counter));
+  const filter_life = toNumber(safeState(hass, entities?.filter_life));
+
+  let usedLife = 0;
+  if (isFinite(filter_counter) && isFinite(filter_life) && filter_life > 0) {
+    usedLife = filter_counter * 15; // in minutes
+    usedLife = usedLife / 60; // in hours
+    usedLife = Math.round(usedLife / 24); // in days
+    result.days = filter_life - usedLife;
+  }
+
+  if (result.days < 0) {
+    result.title = localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.filter_overdue);
+  }
+  else {
+    result.title = localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.filter_2_replace, { days: '' + result.days });
+  }
+
+  if (usedLife > 0) {
+    result.message = localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.filter_used, { days: '' + usedLife }) + '\n';
+    result.message += result.title;
+  }
 
   return result;
 }

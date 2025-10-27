@@ -42,16 +42,8 @@ export const cardStyles = css`
   .temps {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
     min-width: 60px;          /* opzionale: larghezza minima delle temperature */
-    font-size: 1.1em;
-    white-space: nowrap;
-    background: var(--card-background-color);
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.03);
-    border: 1px solid var(--divider-color);  
-    padding: 3px;
     flex: 1;
   }
 
@@ -62,16 +54,17 @@ export const cardStyles = css`
     white-space: nowrap;
   }
 
-  .temps .label {
-    font-size: 0.75em;
-    color: var(--secondary-text-color);
+  .temps ha-icon {
+    font-size: 1.5em;
+    cursor: pointer;
+    padding-right: 8px;
   }
 
   /* Stili per l'indicatore di stato */
   .status-indicator {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
     margin-left: auto;        /* spinge l'indicatore a destra */
     flex: 1;
     text-align: right;
@@ -92,6 +85,10 @@ export const cardStyles = css`
 
   .status-indicator .alert {
     color: var(--error-color, #d32f2f);
+  }
+
+  .status-indicator .warning {
+    color: var(--wa-color-warning-fill-loud, #ff9342);
   }
 
   /* Stili per il pulsante di accensione */

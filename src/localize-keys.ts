@@ -9,7 +9,7 @@ export const LOC_KEYS = {
         "temperature": {
           "internal": "ui.card.sabiana_vmc.temperature.internal",
           "external": "ui.card.sabiana_vmc.temperature.external",
-          "exhaust": "ui.card.sabiana_vmc.temperature.exhaust",
+          "flow": "ui.card.sabiana_vmc.temperature.flow",
           "disposal": "ui.card.sabiana_vmc.temperature.disposal",
           "efficiency": "ui.card.sabiana_vmc.temperature.efficiency"
         },
@@ -36,12 +36,18 @@ export const LOC_KEYS = {
           "pN": "ui.card.sabiana_vmc.programs.pN"
         },
         "messages": {
+          "temperature_in": "ui.card.sabiana_vmc.messages.temperature_in",
+          "temperature_out": "ui.card.sabiana_vmc.messages.temperature_out",
+          "temperature_flow": "ui.card.sabiana_vmc.messages.temperature_flow",
+          "temperature_disposal": "ui.card.sabiana_vmc.messages.temperature_disposal",
+          "efficiency": "ui.card.sabiana_vmc.messages.efficiency",
           "boost_on": "ui.card.sabiana_vmc.messages.boost_on",
           "boost_off": "ui.card.sabiana_vmc.messages.boost_off",
           "bypass_on": "ui.card.sabiana_vmc.messages.bypass_on",
           "bypass_off": "ui.card.sabiana_vmc.messages.bypass_off",
           "defrost_on": "ui.card.sabiana_vmc.messages.defrost_on",
           "defrost_off": "ui.card.sabiana_vmc.messages.defrost_off",
+          "no_alert": "ui.card.sabiana_vmc.messages.no_alert",
           "t1_probe_failure": "ui.card.sabiana_vmc.messages.t1_probe_failure",
           "t2_probe_failure": "ui.card.sabiana_vmc.messages.t2_probe_failure",
           "t3_probe_failure": "ui.card.sabiana_vmc.messages.t3_probe_failure",
@@ -60,7 +66,12 @@ export const LOC_KEYS = {
           "holiday_mode_days_set": "ui.card.sabiana_vmc.messages.holiday_mode_days_set",
           "temp_for_free_cooling_set": "ui.card.sabiana_vmc.messages.temp_for_free_cooling_set",
           "temp_for_free_heating_set": "ui.card.sabiana_vmc.messages.temp_for_free_heating_set",
-          "boost_time_set": "ui.card.sabiana_vmc.messages.boost_time_set"
+          "boost_time_set": "ui.card.sabiana_vmc.messages.boost_time_set",
+          "filter_used": "ui.card.sabiana_vmc.messages.filter_used",
+          "filter_2_replace": "ui.card.sabiana_vmc.messages.filter_2_replace",
+          "filter_overdue": "ui.card.sabiana_vmc.messages.filter_overdue",
+          "filter_life": "ui.card.sabiana_vmc.messages.filter_life",
+          "filter_reset": "ui.card.sabiana_vmc.messages.filter_reset"
         },
         "errors": {
           "missing_config": "ui.card.sabiana_vmc.errors.missing_config",

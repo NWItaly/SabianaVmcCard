@@ -6,7 +6,7 @@
         "temperature": {
           "internal": "Interna",
           "external": "Esterna",
-          "exhaust": "Estratta",
+          "flow": "Mandata",
           "disposal": "Smaltimento",
           "efficiency": "Efficienza scambiatore"
         },
@@ -33,12 +33,18 @@
           "pN": "Personalizzato {program}."
         },
         "messages": {
+          "temperature_in": "Temperatura aria viziata estratta",
+          "temperature_out": "Temperatura aria esterna",
+          "temperature_flow": "Temperatura aria di mandata",
+          "temperature_disposal": "Temperatura aria di smaltimento",
+          "efficiency": "Efficienza recupero di calore",
           "boost_on": "La modalità Festa/Boost è attiva.",
-          "boost_off": "La modalità Festa/Boost è disattiva.",
-          "bypass_on": "La modalità Bypass è attiva.",
-          "bypass_off": "La modalità Bypass è disattiva.",
-          "defrost_on": "Ciclo di scongelamento attivo.",
-          "defrost_off": "Ciclo di scongelamento disattiva.",
+          "boost_off": "La modalità Festa/Boost è disattiva",
+          "bypass_on": "La modalità Bypass è attiva",
+          "bypass_off": "La modalità Bypass è disattiva",
+          "defrost_on": "Ciclo di scongelamento attivo",
+          "defrost_off": "Ciclo di scongelamento disattivo",
+          "no_alert": "Nessun allarme",
           "t1_probe_failure": "Guasto sonda T1",
           "t2_probe_failure": "Guasto sonda T2",
           "t3_probe_failure": "Guasto sonda T3",
@@ -57,7 +63,12 @@
           "holiday_mode_days_set": "Giorni di modalità vacanza:",
           "temp_for_free_cooling_set": "Valore di riferimento per il raffrescamento (°C):",
           "temp_for_free_heating_set": "Valore di riferimento per il riscaldamento (°C):",
-          "boost_time_set": "Durata della modalità Festa/Boost (°C):"
+          "boost_time_set": "Durata della modalità Festa/Boost (min):",          
+          "filter_used": "I filtri sono in uso da {days} giorni",
+          "filter_2_replace": "Sostituire il filtro tra {days} giorni",
+          "filter_overdue": "Sostituzione del filtro in ritardo di {days} giorni",
+          "filter_life": "Vita utile dei filtri (giorni):",
+          "filter_reset": "Azzera contatore filtri"
         },
         "errors": {
           "missing_config": "Configurazione mancante o non valida: {key}.",

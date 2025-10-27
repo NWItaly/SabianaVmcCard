@@ -63,7 +63,6 @@ export function toNumber(value: string | number | undefined, defaultValue: numbe
   return isNaN(num) ? defaultValue : num;
 };
 
-
 /**
  * Valida se un valore di temperatura è ragionevole
  * 

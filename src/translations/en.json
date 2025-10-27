@@ -6,7 +6,7 @@
         "temperature": {
           "internal": "Internal",
           "external": "External",
-          "exhaust": "Exhaust",
+          "flow": "Flow",
           "disposal": "Disposal",
           "efficiency": "Heat recovery efficiency"
         },
@@ -33,12 +33,18 @@
           "pN": "Custom {program}"
         },
         "messages": {
+          "temperature_in": "Extracted (stale) air temperature",
+          "temperature_out": "External air temperature",
+          "temperature_flow": "Supply air temperature",
+          "temperature_disposal": "Disposal air temperature",
+          "efficiency": "Heat recovery efficiency",
           "boost_on": "Boost mode is active",
           "boost_off": "Boost mode is deactive",
           "bypass_on": "Bypass mode is active",
           "bypass_off": "Bypass mode is deactive",
           "defrost_on": "Defrost cycle is active",
           "defrost_off": "Defrost cycle is deactive",
+          "no_alert": "No alerts",
           "t1_probe_failure": "T1 probe failure",
           "t2_probe_failure": "T2 probe failure",
           "t3_probe_failure": "T3 probe failure",
@@ -57,7 +63,12 @@
           "holiday_mode_days_set": "Holiday mode days:",
           "temp_for_free_cooling_set": "Free Cooling Temperature Setpoint (°C):",
           "temp_for_free_heating_set": "Free Heating Temperature Setpoint (°C):",
-          "boost_time_set": "Boost/Party time (min):"
+          "boost_time_set": "Boost/Party time (min):",
+          "filter_used": "Filter has been used for {days} days",
+          "filter_2_replace": "Replace filter in {days} days",
+          "filter_overdue": "Filter replacement overdue by {days} days",
+          "filter_life": "Filter life (days):",
+          "filter_reset": "Reset filter counter"
         },
         "errors": {
           "missing_config": "Missing or invalid configuration: {key}",
