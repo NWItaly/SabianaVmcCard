@@ -62,12 +62,22 @@ export const cardStyles = css`
 
   /* Stili per l'indicatore di stato */
   .status-indicator {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    margin-left: auto;        /* spinge l'indicatore a destra */
+    display: grid;
+    grid-template-columns: repeat(2, auto); /* 2 colonne di icone */
+    gap: 6px 12px;                           /* row-gap col-gap */
+    margin-left: auto;                       /* spinge l'indicatore a destra */
     flex: 1;
+    justify-content: end;                    /* allinea la griglia a destra */
+    align-items: center;
     text-align: right;
+  }
+
+  /* piccolo adattamento responsive: 1 colonna su schermi stretti */
+  @media (max-width: 420px) {
+    .status-indicator {
+      grid-template-columns: repeat(1, auto);
+      gap: 6px;
+    }
   }
 
   .status-indicator ha-icon {
@@ -113,8 +123,8 @@ export const cardStyles = css`
     color: var(--disabled-text-color, #9e9e9e);
   }
 
-  /* Stili per il selettore di modalità di funzionamento */
-  .mode-selector {
+  /* Stili per pulsanti raggruppati */
+  .group-selector {
     display: flex;
     margin-bottom: 16px;
     background: var(--card-background-color);
@@ -124,7 +134,7 @@ export const cardStyles = css`
     border: 1px solid var(--divider-color);  
   }
 
-  .mode-button {
+  .group-button {
     flex: 1;
     padding: 10px 0;
     background: none;
@@ -143,83 +153,28 @@ export const cardStyles = css`
     container-type: inline-size;
   }
 
-  .mode-button:first-child {
+  .group-button:first-child {
     border-top-left-radius: 30px;    /* Estremo sinistro arrotondato a cerchio */
     border-bottom-left-radius: 30px;
   }
 
-  .mode-button:last-child {
+  .group-button:last-child {
     border-top-right-radius: 30px;   /* Estremo destro arrotondato a cerchio */
     border-bottom-right-radius: 30px;
     border-right: none; /* Nessun bordo dopo l’ultimo */
   }
 
-  .mode-button:hover {
+  .group-button:hover {
     background: var(--wa-color-neutral-fill-normal);
   }
 
-  .mode-button.selected {
+  .group-button.selected {
     background: var(--ha-color-fill-primary-normal-resting);
     color: var(--ha-color-fill-primary-loud-active);
     font-weight: 600;
   }
 
-  .mode-button:disabled {
-    cursor: not-allowed;
-    opacity: 0.2;
-  }
-
-  /* Stili per il selettore della velocità manuale */
-  .speed-manual {
-    display: flex;
-    margin-bottom: 16px;
-    background: var(--card-background-color);
-    border-radius: 30px;
-    overflow: hidden;
-    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.03);
-    border: 1px solid var(--divider-color);
-  }
-
-  .speed-button {
-    flex: 1;
-    padding: 10px 0;
-    background: none;
-    border: none;
-    border-right: 1px solid #fff; /* Bordo bianco tra pulsanti */    
-    color: var(--wa-color-neutral-fill-loud);
-    cursor: pointer;
-    font-size: 1em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.15s, color 0.15s;
-    border-radius: 0;             /* Nessun arrotondamento di default */
-    outline: none;
-    padding: 4px;
-  }
-
-  .speed-button:first-child {
-    border-top-left-radius: 30px;    /* Estremo sinistro arrotondato a cerchio */
-    border-bottom-left-radius: 30px;
-  }
-
-  .speed-button:last-child {
-    border-top-right-radius: 30px;   /* Estremo destro arrotondato a cerchio */
-    border-bottom-right-radius: 30px;
-    border-right: none; /* Nessun bordo dopo l’ultimo */
-  }
-
-  .speed-button:hover {
-    background: var(--wa-color-neutral-fill-normal);
-  }
-
-  .speed-button.selected {
-    background: var(--ha-color-fill-primary-normal-resting);
-    color: var(--ha-color-fill-primary-loud-active);
-    font-weight: 600;
-  }
-
-  .speed-button:disabled {
+  .group-button:disabled {
     cursor: not-allowed;
     opacity: 0.2;
   }

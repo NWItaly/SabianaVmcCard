@@ -26,6 +26,7 @@ const ENTITY_BASE = {
     , duty_cycle_fan_1: 'sensor.@prefix@_blk1_duty_cycle_fan_1'
     , program: 'number.@prefix@_vmc_timer_progr_selection'
     , boost: 'binary_sensor.@prefix@_blk1_boost_active'
+    , flush: 'switch.@prefix@_blk2_flush_mode_set'
     , bypass: 'binary_sensor.@prefix@_blk1_bypass_active'
     , bypass_mode: 'sensor.@prefix@_blk1_free_cooling_free_heating'
     , defrost: 'binary_sensor.@prefix@_blk1_defrost_cycle_active'

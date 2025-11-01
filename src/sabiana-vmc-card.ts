@@ -19,8 +19,10 @@ export class SabianaVmcCard
   @state() protected entities?: SabianaEntities;
   @state() protected modalMessage: string = "";
   @state() protected error?: string;
-  @state() protected spinner: boolean = false;
+  @state() protected spinnerSelectMode: boolean = false;
+  @state() protected spinnerFlush: boolean = false;
   @state() protected modalTemp4Bypass: boolean = false;
+  @state() protected modalFlush: boolean = false;
   @state() protected modalBoost: boolean = false;
   @state() protected modalFilterLife: boolean = false;
 
@@ -61,16 +63,27 @@ export class SabianaVmcCard
         }
       };
     }
-    else if(this.spinner && changedProps.has('hass')) {
+    else if (this.spinnerSelectMode && changedProps.has('hass')) {
       const oldHA = changedProps.get('hass') as HomeAssistant | undefined;
       const oldMode = safeState(oldHA, this.entities?.mode);
       const newMode = safeState(this.hass, this.entities?.mode);
 
       if (oldMode !== newMode) {
         console.log('La modalità di funzionamento è cambiata:', newMode);
-        this.spinner = false;
+        this.spinnerSelectMode = false;
       }
     }
+    else if (this.spinnerFlush && changedProps.has('hass')) {
+      const oldHA = changedProps.get('hass') as HomeAssistant | undefined;
+      const oldFlush = safeState(oldHA, this.entities?.flush);
+      const newFlush = safeState(this.hass, this.entities?.flush);
+
+      if (oldFlush !== newFlush) {
+        console.log('La modalità Flush è cambiata:', newFlush);
+        this.spinnerFlush = false;
+      }
+    }
+
   }
 
   render = renderCard;
@@ -87,6 +100,10 @@ export class SabianaVmcCard
   disconnectedCallback() {
     super.disconnectedCallback();
     // Pulisci timer, listener per evitare memory leak  
+  }
+
+  spinner(): boolean {
+    return this.spinnerSelectMode || this.spinnerFlush;
   }
 
   //#region User actions
@@ -120,7 +137,7 @@ export class SabianaVmcCard
     if (!entityId) return;
 
     this.hass.callService('switch', 'toggle', { entity_id: entityId });
-    this.spinner = true;
+    this.spinnerSelectMode = true;
   }
 
   protected setFanSpeed(speed: number) {
@@ -141,8 +158,8 @@ export class SabianaVmcCard
 
   protected setHolidayModeModeDays(days: number) {
     if (!this.entities?.holiday_mode_days) return;
-    if( days < 1 ) days = 1;
-    if( days > 60 ) days = 60;
+    if (days < 1) days = 1;
+    if (days > 60) days = 60;
     this.hass.callService('number', 'set_value', {
       entity_id: this.entities?.holiday_mode_days,
       value: days
@@ -151,28 +168,37 @@ export class SabianaVmcCard
 
   protected setTempForFreeCooling(temp: number) {
     if (!this.entities?.temp_for_free_cooling) return;
-    if( temp < 10 ) temp = 10;
-    if( temp > 35 ) temp = 35;
+    if (temp < 10) temp = 10;
+    if (temp > 35) temp = 35;
     this.hass.callService('number', 'set_value', {
       entity_id: this.entities?.temp_for_free_cooling,
       value: temp
     });
   }
-  
+
   protected setTempForFreeHeating(temp: number) {
     if (!this.entities?.temp_for_free_heating) return;
-    if( temp < 10 ) temp = 10;
-    if( temp > 30 ) temp = 30;
+    if (temp < 10) temp = 10;
+    if (temp > 30) temp = 30;
     this.hass.callService('number', 'set_value', {
       entity_id: this.entities?.temp_for_free_heating,
       value: temp
     });
   }
 
+  protected setFlush(active: boolean) {
+    if (!this.entities?.flush) return;
+    this.hass.callService('switch', active ? 'turn_on' : 'turn_off', {
+      entity_id: this.entities?.flush
+    });
+    this.spinnerFlush = true;
+    this.closeModal();
+  }
+
   protected setBoostTime(minutes: number) {
     if (!this.entities?.boost_time) return;
-    if( minutes < 15 ) minutes = 15;
-    if( minutes > 240 ) minutes = 240;
+    if (minutes < 15) minutes = 15;
+    if (minutes > 240) minutes = 240;
     this.hass.callService('number', 'set_value', {
       entity_id: this.entities?.boost_time,
       value: minutes
@@ -181,8 +207,8 @@ export class SabianaVmcCard
 
   protected setFilterLife(minutes: number) {
     if (!this.entities?.filter_life) return;
-    if( minutes < 30 ) minutes = 30;
-    if( minutes > 400 ) minutes = 400;
+    if (minutes < 30) minutes = 30;
+    if (minutes > 400) minutes = 400;
     this.hass.callService('number', 'set_value', {
       entity_id: this.entities?.filter_life,
       value: minutes
@@ -206,9 +232,10 @@ export class SabianaVmcCard
   closeModal() {
     this.modalMessage = "";
     this.modalTemp4Bypass = false;
+    this.modalFlush = false;
     this.modalBoost = false;
     this.modalFilterLife = false;
   }
   //#endregion
-  
+
 }

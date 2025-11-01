@@ -1,12 +1,13 @@
 import { html } from "lit";
 import { SabianaVmcCard } from "./sabiana-vmc-card";
 import { localize } from "./localize";
-import { getEntityValue, safeState, toNumber, getEntityBool, formatNumber } from "./commons";
+import { getEntityValue, safeState, toNumber, getEntityBool } from "./commons";
 import { LOC_KEYS } from "./localize-keys";
 import { SabianaVmcMode, toSabianaVmcMode, toSabianaVmcModeIcon, toSabianaVmcModeLocalization } from "./sabiana-vmc-mode";
 import { SabianaEntities } from "./configuration";
 import { HomeAssistant } from "custom-card-helpers";
-import './range-slider/range-slider.ts';
+import './components/range-slider';
+import './components/toggle-switch';
 declare const __CARD_VERSION__: string;
 
 export function renderCard(this: SabianaVmcCard) {
@@ -25,8 +26,13 @@ export function renderCard(this: SabianaVmcCard) {
   const alertTitle = alerts || localize(this.hass.language, LOC_KEYS.ui.card.sabiana_vmc.messages.no_alert);
   const boost = safeState(this.hass, this.entities?.boost, 'off') === 'on';
   const boostTitle = boost ? localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.boost_on) : localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.boost_off);
+  const boostDescription = '\n\n' + localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.boost_description);
+  const flush = safeState(this.hass, this.entities?.flush, 'off') === 'on';
+  const flushTitle = flush ? localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.flush_on) : localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.flush_off);
+  const flushDescription = '\n\n' + localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.flush_description);
   const bypass = safeState(this.hass, this.entities?.bypass, 'off') === 'on';
   const bypassTitle = bypass ? localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.bypass_on) : localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.bypass_off);
+  const bypassDescription = '\n\n' + localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.bypass_description);
   const defrost = safeState(this.hass, this.entities?.defrost, 'off') === 'on';
   const defrostTitle = defrost ? localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.defrost_on) : localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.defrost_off);
   const modeState = safeState(this.hass, this.entities?.mode) || '';
@@ -43,20 +49,29 @@ export function renderCard(this: SabianaVmcCard) {
 
   return html`
 <ha-card>
-  <div class="spinner ${!this.spinner ? 'hidden-element' : ''}">
+  <div class="spinner ${!this.spinner() ? 'hidden-element' : ''}">
     <ha-icon icon="mdi:loading"></ha-icon>
   </div>
 
-  <h1 class="header">
+  <div class="header">
     <div class="name">
       Sabiana ${model}
     </div>
-    <button class="power-button" 
-      @click=${this.togglePower} 
-      title=${powerState ? localize(lang, LOC_KEYS.ui.card.sabiana_vmc.actions.power_off) : localize(lang, LOC_KEYS.ui.card.sabiana_vmc.actions.power_on)}>
-      <ha-icon class=${powerState ? 'power-button-on' : 'power-button-off'} icon="mdi:power"></ha-icon>
-    </button>
-  </h1>
+    <div class="group-selector" style="width: 120px; margin: 0;">     
+      <button
+        class="group-button ${powerState ? 'selected' : ''}"
+        @click=${() => this.togglePower()}
+        title="${powerState ? localize(lang, LOC_KEYS.ui.card.sabiana_vmc.actions.power_off) : localize(lang, LOC_KEYS.ui.card.sabiana_vmc.actions.power_on)}">
+        <ha-icon class=${powerState ? 'power-button-on' : 'power-button-off'} icon="mdi:power"></ha-icon>
+      </button>
+      <button
+        class="group-button"
+        @click=${() => alert('TODO')}
+        title="${localize(lang, LOC_KEYS.ui.card.sabiana_vmc.actions.settings)}">
+        <ha-icon icon="mdi:dots-vertical"></ha-icon>
+      </button>
+    </div>
+  </div>
 
   <div class="main-row">
 
@@ -129,21 +144,28 @@ export function renderCard(this: SabianaVmcCard) {
         class="${time2ReplaceFilter.days <= 0 ? 'alert' : time2ReplaceFilter.days < 10 ? 'warning' : 'off'}"
         title="${time2ReplaceFilter.title}"
         icon="mdi:air-filter"
-        @click="${() => { this.modalFilterLife = true; this.openModal(time2ReplaceFilter.message) }}">
+        @click="${() => { this.modalFilterLife = true; this.openModal(time2ReplaceFilter.message); }}">
       </ha-icon>
 
       <ha-icon 
         class="${!boost ? 'off' : 'on'}"
         title="${boostTitle}"
         icon="mdi:fan-plus"
-        @click="${() => { this.modalBoost = true; this.openModal(boostTitle) }}">
+        @click="${() => { this.modalBoost = true; this.openModal(boostTitle + boostDescription); }}">
       </ha-icon>
 
       <ha-icon 
         class="${!bypass ? 'off' : 'on'}"
         title="${bypassTitle}"
         icon="mdi:debug-step-over"
-        @click="${() => { this.modalTemp4Bypass = true; this.openModal(bypassTitle) }}">
+        @click="${() => { this.modalTemp4Bypass = true; this.openModal(bypassTitle + bypassDescription); }}">
+      </ha-icon>
+
+      <ha-icon 
+        class="${!flush ? 'off' : 'on'}"
+        title="${flushTitle}"
+        icon="mdi:weather-windy"
+        @click="${() => { this.modalFlush = true; this.openModal(flushTitle + flushDescription); }}">
       </ha-icon>
 
       <ha-icon 
@@ -157,11 +179,11 @@ export function renderCard(this: SabianaVmcCard) {
 
   </div>  
 
-  <div class="mode-selector">
+  <div class="group-selector">
     ${Object.keys(SabianaVmcMode).map(mode => html`
       <button
         aria-label="${mode}"
-        class="mode-button ${modeState === mode ? "selected" : ""}"
+        class="group-button ${modeState === mode ? "selected" : ""}"
         @click=${() => this.selectMode(toSabianaVmcMode(mode))}
         title="${localize(lang, toSabianaVmcModeLocalization(mode))}"
         ?disabled="${!powerState}">
@@ -171,11 +193,11 @@ export function renderCard(this: SabianaVmcCard) {
   </div>
 
   <div
-    class="speed-manual ${modeState !== SabianaVmcMode.Manual ? 'hidden-element' : ''}">
+    class="group-manual ${modeState !== SabianaVmcMode.Manual ? 'hidden-element' : ''}">
     ${Array.from({ length: 4 }, (_, speed) => html`
       <button 
         aria-label="${speed}"
-        class="speed-button ${manualSpeed === speed ? 'selected' : ''}"
+        class="group-button ${manualSpeed === speed ? 'selected' : ''}"
         @click="${() => this.setFanSpeed(speed)}"
         ?disabled="${!powerState}">
         <ha-icon icon="${getIconForSpeed(speed)}"></ha-icon>
@@ -198,7 +220,7 @@ export function renderCard(this: SabianaVmcCard) {
   </div>
 
   <div
-    class="holiday-mode-days ${modeState !== SabianaVmcMode.Holiday ? 'hidden-element' : ''} range-container">
+    class="holiday-group-days ${modeState !== SabianaVmcMode.Holiday ? 'hidden-element' : ''} range-container">
     <range-slider 
       label="${localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.holiday_mode_days_set)}" 
       .min="${1}" 
@@ -267,6 +289,14 @@ export function renderCard(this: SabianaVmcCard) {
             </button>
           </div>
         ` : ''}
+
+        ${this.modalFlush ? html`
+          <toggle-switch
+            label="${localize(lang, LOC_KEYS.ui.card.sabiana_vmc.messages.flush_mode)}"
+            .checked="${flush}"
+            @toggle-changed="${(e: CustomEvent) => this.setFlush(e.detail.checked)}"
+          ></toggle-switch>
+          `: ''}
 
       </div>
     </div>` : ''}
