@@ -34,7 +34,27 @@ export const LOC_KEYS = {
           "p2": "ui.card.sabiana_vmc.programs.p2",
           "p3": "ui.card.sabiana_vmc.programs.p3",
           "p4": "ui.card.sabiana_vmc.programs.p4",
-          "pN": "ui.card.sabiana_vmc.programs.pN"
+          "pN": "ui.card.sabiana_vmc.programs.pN",
+          "settings": {
+            "title": "ui.card.sabiana_vmc.programs.settings.title",
+            "days": {
+              "monday": "ui.card.sabiana_vmc.programs.settings.days.monday",
+              "tuesday": "ui.card.sabiana_vmc.programs.settings.days.tuesday",
+              "wednesday": "ui.card.sabiana_vmc.programs.settings.days.wednesday",
+              "thursday": "ui.card.sabiana_vmc.programs.settings.days.thursday",
+              "friday": "ui.card.sabiana_vmc.programs.settings.days.friday",
+              "saturday": "ui.card.sabiana_vmc.programs.settings.days.saturday",
+              "sunday": "ui.card.sabiana_vmc.programs.settings.days.sunday"
+            },
+            "hours": "ui.card.sabiana_vmc.programs.settings.hours",
+            "speeds": "ui.card.sabiana_vmc.programs.settings.speeds",
+            "save": "ui.card.sabiana_vmc.programs.settings.save",
+            "cancel": "ui.card.sabiana_vmc.programs.settings.cancel",
+            "reset": "ui.card.sabiana_vmc.programs.settings.reset",
+            "copyAllDays": "ui.card.sabiana_vmc.programs.settings.copyAllDays",
+            "copyWeekdays": "ui.card.sabiana_vmc.programs.settings.copyWeekdays",
+            "copyWeekends": "ui.card.sabiana_vmc.programs.settings.copyWeekends"
+          }
         },
         "messages": {
           "temperature_in": "ui.card.sabiana_vmc.messages.temperature_in",

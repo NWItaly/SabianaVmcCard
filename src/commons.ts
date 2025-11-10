@@ -73,3 +73,19 @@ export function isValidTemperature(temp: number) {
   const t = toNumber(temp);
   return !isNaN(t) && t > -50 && t < 100; // Range ragionevole per VMC
 }
+
+/**
+ * Restituisce l'icona giusta per la velocità della ventola
+ * 
+ * @param speed 
+ * @returns 
+ */
+export function getIconForSpeed(speed: number): string {
+  switch (speed) {
+    case 0: return "mdi:fan-speed-1";
+    case 1: return "mdi:fan-speed-2";
+    case 2: return "mdi:fan-speed-3";
+    case 3: return "mdi:fan-plus";
+    default: return "mdi:fan";
+  }
+}

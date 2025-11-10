@@ -1,13 +1,14 @@
 import { html } from "lit";
 import { SabianaVmcCard } from "./sabiana-vmc-card";
 import { localize } from "./localize";
-import { getEntityValue, safeState, toNumber, getEntityBool } from "./commons";
+import { getEntityValue, safeState, toNumber, getEntityBool, getIconForSpeed } from "./commons";
 import { LOC_KEYS } from "./localize-keys";
 import { SabianaVmcMode, toSabianaVmcMode, toSabianaVmcModeIcon, toSabianaVmcModeLocalization } from "./sabiana-vmc-mode";
 import { SabianaEntities } from "./configuration";
 import { HomeAssistant } from "custom-card-helpers";
 import './components/range-slider';
 import './components/toggle-switch';
+import './components/schedule-editor';
 declare const __CARD_VERSION__: string;
 
 export function renderCard(this: SabianaVmcCard) {
@@ -57,20 +58,10 @@ export function renderCard(this: SabianaVmcCard) {
     <div class="name">
       Sabiana ${model}
     </div>
-    <div class="group-selector" style="width: 120px; margin: 0;">     
-      <button
-        class="group-button ${powerState ? 'selected' : ''}"
-        @click=${() => this.togglePower()}
-        title="${powerState ? localize(lang, LOC_KEYS.ui.card.sabiana_vmc.actions.power_off) : localize(lang, LOC_KEYS.ui.card.sabiana_vmc.actions.power_on)}">
-        <ha-icon class=${powerState ? 'power-button-on' : 'power-button-off'} icon="mdi:power"></ha-icon>
-      </button>
-      <button
-        class="group-button"
-        @click=${() => alert('TODO')}
-        title="${localize(lang, LOC_KEYS.ui.card.sabiana_vmc.actions.settings)}">
-        <ha-icon icon="mdi:dots-vertical"></ha-icon>
-      </button>
-    </div>
+    <toggle-switch
+      .checked="${powerState}"
+      @toggle-changed="${(e: CustomEvent) => this.togglePower()}"
+    ></toggle-switch>
   </div>
 
   <div class="main-row">
@@ -193,7 +184,7 @@ export function renderCard(this: SabianaVmcCard) {
   </div>
 
   <div
-    class="group-manual ${modeState !== SabianaVmcMode.Manual ? 'hidden-element' : ''}">
+    class="group-selector ${modeState !== SabianaVmcMode.Manual ? 'hidden-element' : ''}">
     ${Array.from({ length: 4 }, (_, speed) => html`
       <button 
         aria-label="${speed}"
@@ -207,7 +198,7 @@ export function renderCard(this: SabianaVmcCard) {
 
   <div
     class="program-selection ${modeState !== SabianaVmcMode.Program ? 'hidden-element' : ''}">
-    ${Array.from({ length: 7 }, (_, program) => html`
+    ${Array.from({ length: 8 }, (_, program) => html`
       <button 
         aria-label="${getLabelForProgram(lang, program)}"
         title="${getLabelForProgram(lang, program)}"
@@ -217,6 +208,14 @@ export function renderCard(this: SabianaVmcCard) {
         <ha-icon icon="mdi:numeric-${program + 1}"></ha-icon>
       </button>
       `)}
+      <button 
+        aria-label="${localize(lang, LOC_KEYS.ui.card.sabiana_vmc.programs.settings.title)}"
+        title="${localize(lang, LOC_KEYS.ui.card.sabiana_vmc.programs.settings.title)}"
+        class="program-button ${programSelection >= 4 ? '' : 'hidden-element'}"
+        @click="${() => this.programSettings()}"
+        ?disabled="${!powerState}">
+        <ha-icon icon="mdi:cog"></ha-icon>
+      </button>
   </div>
 
   <div
@@ -235,7 +234,7 @@ export function renderCard(this: SabianaVmcCard) {
     <div class="version">v${CARD_VERSION}</div>
   </div>
 
-  ${this.modalMessage.length > 0 ? html`
+  ${this.modalShouldBeOpen() ? html`
     <div class="modal" @click="${this.closeModal}">
       <div class="modal-content" @click="${(e: Event) => e.stopPropagation()}">
         <span class="close" @click="${this.closeModal}">&times;</span>
@@ -298,6 +297,15 @@ export function renderCard(this: SabianaVmcCard) {
           ></toggle-switch>
           `: ''}
 
+        ${this.modalScheduleSettings ? html`
+          <schedule-editor
+            .hass="${this.hass}"
+            .entities="${this.entities}"
+            .lang="${lang}"
+            @schedule-changed="${(e: CustomEvent) => this.saveSchedule(e.detail.schedule)}"
+          ></schedule-editor>
+          `: ''}
+
       </div>
     </div>` : ''}
 
@@ -340,16 +348,6 @@ function getFanAnimationSpeed(speed: number): string {
       return "0.8s";    // veloce
     default:
       return "0s";    // ferma
-  }
-}
-
-function getIconForSpeed(speed: number): string {
-  switch (speed) {
-    case 0: return "mdi:fan-speed-1";
-    case 1: return "mdi:fan-speed-2";
-    case 2: return "mdi:fan-speed-3";
-    case 3: return "mdi:fan-plus";
-    default: return "mdi:fan";
   }
 }
 

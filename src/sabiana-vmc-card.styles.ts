@@ -266,7 +266,7 @@ export const cardStyles = css`
   .modal {
     display: block;
     position: fixed;
-    z-index: 999;
+    z-index: 50;
     left: 0; top: 0;
     width: 100vw; height: 100vh;
     background: rgba(0,0,0,0.4);
@@ -277,7 +277,7 @@ export const cardStyles = css`
     margin: 15% auto;
     padding: 16px;
     border-radius: 8px;
-    width: 320px;
+    width: 500px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.2);
   }
   .close {
@@ -307,7 +307,7 @@ export const cardStyles = css`
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10;
+    z-index: 60;
     border-radius: 8px;
   }
 

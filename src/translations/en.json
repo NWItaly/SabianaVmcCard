@@ -31,7 +31,27 @@
           "p2": "Family with constant presence at home during the day",
           "p3": "Family that works and returns home for lunch",
           "p4": "Office used from Monday to Friday",
-          "pN": "Custom {program}"
+          "pN": "Custom {program}",
+          "settings": {
+            "title": "Weekly Program Settings",
+            "days": {
+              "monday": "monday",
+              "tuesday": "thursday",
+              "wednesday": "wednesday",
+              "thursday": "thursday",
+              "friday": "friday",
+              "saturday": "saturday",
+              "sunday": "sunday"
+            },
+            "hours": "Hours",
+            "speeds": "Speeds",
+            "save": "Save",
+            "cancel": "Cancel",
+            "reset": "Reset",
+            "copyAllDays": "Copy the current day to all days",
+            "copyWeekdays": "Copy to Mon-Fri (weekdays)",
+            "copyWeekends": "Copy to Sat-Sun (weekends)"
+          }
         },
         "messages": {
           "temperature_in": "Extracted (stale) air temperature",

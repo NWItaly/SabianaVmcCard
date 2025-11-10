@@ -31,7 +31,27 @@
           "p2": "Famiglia con presenza fissa in casa durante la giornata.",
           "p3": "Famiglia che lavora con rientro per il pasto di mezzogiorno.",
           "p4": "Ufficio con utilizzo dal lunedì al venerdì.",
-          "pN": "Personalizzato {program}."
+          "pN": "Personalizzato {program}.",
+          "settings": {
+            "title": "Impostazioni Programma Settimanale",
+            "days": {
+              "monday": "lunedì",
+              "tuesday": "martedì",
+              "wednesday": "mercoledì",
+              "thursday": "giovedì",
+              "friday": "venerdì",
+              "saturday": "sabato",
+              "sunday": "domenica"
+            },
+            "hours": "Ore",
+            "speeds": "Velocità",
+            "save": "Salva",
+            "cancel": "Annulla",
+            "reset": "Reimposta",
+            "copyAllDays": "Copy the current day to all days",
+            "copyWeekdays": "Copia a Lun-Ven",
+            "copyWeekends": "Copia a Sab-Dom"
+          }
         },
         "messages": {
           "temperature_in": "Temperatura aria viziata estratta",

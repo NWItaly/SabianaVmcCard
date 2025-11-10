@@ -1,5 +1,5 @@
 import { LitElement, PropertyValues } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, state } from 'lit/decorators.js';
 import { cardStyles } from './sabiana-vmc-card.styles';
 import { renderCard } from './sabiana-vmc-card-view';
 import { localize } from './localize';
@@ -25,6 +25,7 @@ export class SabianaVmcCard
   @state() protected modalFlush: boolean = false;
   @state() protected modalBoost: boolean = false;
   @state() protected modalFilterLife: boolean = false;
+  @state() protected modalScheduleSettings: boolean = false;
 
   static styles = cardStyles;
 
@@ -156,6 +157,15 @@ export class SabianaVmcCard
     });
   }
 
+  protected programSettings() {
+    this.modalScheduleSettings = true;
+  }
+
+  protected saveSchedule(schedule: Array<Array<{ hour: number; speed: number }>>) {
+    console.log('Schedule saved:', schedule);
+    alert('TODO');
+  }
+
   protected setHolidayModeModeDays(days: number) {
     if (!this.entities?.holiday_mode_days) return;
     if (days < 1) days = 1;
@@ -220,11 +230,22 @@ export class SabianaVmcCard
     this.hass.callService('button', 'press', {
       entity_id: this.entities?.reset_filter_counter
     });
+    this.closeModal();
   }
 
   //#endregion
 
   //#region Modale
+  
+  modalShouldBeOpen(): boolean {
+    return this.modalMessage !== "" ||
+      this.modalTemp4Bypass ||
+      this.modalFlush ||
+      this.modalBoost ||
+      this.modalFilterLife ||
+      this.modalScheduleSettings;
+  }
+
   openModal(message: string) {
     this.modalMessage = message;
   }
@@ -235,6 +256,7 @@ export class SabianaVmcCard
     this.modalFlush = false;
     this.modalBoost = false;
     this.modalFilterLife = false;
+    this.modalScheduleSettings = false;
   }
   //#endregion
 
