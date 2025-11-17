@@ -17,13 +17,13 @@ interface WeekSchedule {
 }
 
 interface JsonInterval {
-  t: string; // time "HH:MM"
-  s: number; // speed
+  t: string; // time "HH:MM" (23:59 if not set)
+  s: number; // speed (255 if not set)
 }
 
 interface JsonDay {
   d: number; // day (1-7)
-  sb: number; // speed before
+  sb: number; // speed before (255 if not set)
   i: JsonInterval[]; // intervals
 }
 
@@ -299,7 +299,7 @@ export class ScheduleEditor extends LitElement {
       const key = (`utp${this.userTimerProgram - 4 + 1}_d${i}`) as keyof SabianaEntities;
       const entityId = this.entities[key] as string;
       const value = safeState(this.hass, entityId);
-      if (value && value.length > 0) {
+      if (value && value.length > 0 && value !== 'undefined') {
         days.push(JSON.parse(value));
       }
     }
@@ -492,13 +492,13 @@ export class ScheduleEditor extends LitElement {
     jsonData.forEach(dayData => {
       // Filters only intervals not equals to "23:59"
       // Convert JsonInterval to HourSchedule
-      const validIntervals = dayData.i.filter(interval => {
+      const validIntervals = dayData?.i?.filter(interval => {
         return interval.t !== "23:59";
-      }).map(interval => {
+      })?.map(interval => {
         return { hour: parseInt(interval.t.split(':')[0], 10), speed: interval.s };
       });
       // Add initial speed at hour 0
-      validIntervals.unshift({
+      validIntervals?.unshift({
         hour: 0,
         speed: dayData.sb
       });
@@ -506,14 +506,14 @@ export class ScheduleEditor extends LitElement {
       this.schedule[dayData.d - 1].forEach(hour => {
         // Find the latest interval before or at this hour
         let applicableSpeed = 0;
-        for (let i = 0; i < validIntervals.length; i++) {
+        for (let i = 0; i < validIntervals?.length || 0; i++) {
           if (validIntervals[i].hour <= hour.hour) {
             applicableSpeed = validIntervals[i].speed;
           } else {
             break;
           }
         }
-        hour.speed = applicableSpeed;
+        hour.speed = applicableSpeed > 4 ? 0 : applicableSpeed;;
       });
 
     });

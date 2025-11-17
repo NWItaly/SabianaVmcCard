@@ -285,21 +285,21 @@ L.elementStyles = [], L.shadowRootOptions = { mode: "open" }, L[q("elementProper
  * SPDX-License-Identifier: BSD-3-Clause
  */
 const G = globalThis, te = G.trustedTypes, Re = te ? te.createPolicy("lit-html", { createHTML: (t) => t }) : void 0, Qe = "$lit$", F = `lit$${Math.random().toFixed(9).slice(2)}$`, et = "?" + F, $t = `<${et}>`, B = document, J = () => B.createComment(""), K = (t) => t === null || typeof t != "object" && typeof t != "function", _e = Array.isArray, xt = (t) => _e(t) || typeof (t == null ? void 0 : t[Symbol.iterator]) == "function", le = `[ 	
-\f\r]`, W = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, Ie = /-->/g, Ve = />/g, N = RegExp(`>|${le}(?:([^\\s"'>=/]+)(${le}*=${le}*(?:[^ 	
-\f\r"'\`<>=]|("|')|))|$)`, "g"), We = /'/g, qe = /"/g, tt = /^(?:script|style|textarea|title)$/i, wt = (t) => (e, ...a) => ({ _$litType$: t, strings: e, values: a }), f = wt(1), j = Symbol.for("lit-noChange"), g = Symbol.for("lit-nothing"), Ge = /* @__PURE__ */ new WeakMap(), U = B.createTreeWalker(B, 129);
+\f\r]`, V = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, Ie = /-->/g, We = />/g, N = RegExp(`>|${le}(?:([^\\s"'>=/]+)(${le}*=${le}*(?:[^ 	
+\f\r"'\`<>=]|("|')|))|$)`, "g"), Ve = /'/g, qe = /"/g, tt = /^(?:script|style|textarea|title)$/i, wt = (t) => (e, ...a) => ({ _$litType$: t, strings: e, values: a }), f = wt(1), j = Symbol.for("lit-noChange"), g = Symbol.for("lit-nothing"), Ge = /* @__PURE__ */ new WeakMap(), U = B.createTreeWalker(B, 129);
 function at(t, e) {
   if (!_e(t) || !t.hasOwnProperty("raw")) throw Error("invalid template strings array");
   return Re !== void 0 ? Re.createHTML(e) : e;
 }
 const kt = (t, e) => {
   const a = t.length - 1, r = [];
-  let s, i = e === 2 ? "<svg>" : e === 3 ? "<math>" : "", o = W;
+  let s, i = e === 2 ? "<svg>" : e === 3 ? "<math>" : "", o = V;
   for (let d = 0; d < a; d++) {
     const l = t[d];
     let p, _, h = -1, S = 0;
-    for (; S < l.length && (o.lastIndex = S, _ = o.exec(l), _ !== null); ) S = o.lastIndex, o === W ? _[1] === "!--" ? o = Ie : _[1] !== void 0 ? o = Ve : _[2] !== void 0 ? (tt.test(_[2]) && (s = RegExp("</" + _[2], "g")), o = N) : _[3] !== void 0 && (o = N) : o === N ? _[0] === ">" ? (o = s ?? W, h = -1) : _[1] === void 0 ? h = -2 : (h = o.lastIndex - _[2].length, p = _[1], o = _[3] === void 0 ? N : _[3] === '"' ? qe : We) : o === qe || o === We ? o = N : o === Ie || o === Ve ? o = W : (o = N, s = void 0);
+    for (; S < l.length && (o.lastIndex = S, _ = o.exec(l), _ !== null); ) S = o.lastIndex, o === V ? _[1] === "!--" ? o = Ie : _[1] !== void 0 ? o = We : _[2] !== void 0 ? (tt.test(_[2]) && (s = RegExp("</" + _[2], "g")), o = N) : _[3] !== void 0 && (o = N) : o === N ? _[0] === ">" ? (o = s ?? V, h = -1) : _[1] === void 0 ? h = -2 : (h = o.lastIndex - _[2].length, p = _[1], o = _[3] === void 0 ? N : _[3] === '"' ? qe : Ve) : o === qe || o === Ve ? o = N : o === Ie || o === We ? o = V : (o = N, s = void 0);
     const A = o === N && t[d + 1].startsWith("/>") ? " " : "";
-    i += o === W ? l + $t : h >= 0 ? (r.push(p), l.slice(0, h) + Qe + l.slice(h) + F + A) : l + F + (h === -2 ? d : A);
+    i += o === V ? l + $t : h >= 0 ? (r.push(p), l.slice(0, h) + Qe + l.slice(h) + F + A) : l + F + (h === -2 ? d : A);
   }
   return [at(t, i + (t[a] || "<?>") + (e === 2 ? "</svg>" : e === 3 ? "</math>" : "")), r];
 };
@@ -1326,7 +1326,7 @@ function jt(t) {
       return "mdi:help-circle";
   }
 }
-var Rt = Object.defineProperty, It = Object.getOwnPropertyDescriptor, V = (t, e, a, r) => {
+var Rt = Object.defineProperty, It = Object.getOwnPropertyDescriptor, W = (t, e, a, r) => {
   for (var s = r > 1 ? void 0 : r ? It(e, a) : e, i = t.length - 1, o; i >= 0; i--)
     (o = t[i]) && (s = (r ? o(e, a, s) : o(s)) || s);
   return r && s && Rt(e, a, s), s;
@@ -1474,28 +1474,28 @@ z.styles = ae`
         transform: scale(1.15);
     } 
   `;
-V([
+W([
   x({ type: Number })
 ], z.prototype, "value", 2);
-V([
+W([
   x({ type: Number })
 ], z.prototype, "min", 2);
-V([
+W([
   x({ type: Number })
 ], z.prototype, "max", 2);
-V([
+W([
   x({ type: Number })
 ], z.prototype, "step", 2);
-V([
+W([
   x({ type: String })
 ], z.prototype, "label", 2);
-z = V([
+z = W([
   se("range-slider")
 ], z);
-var Vt = Object.defineProperty, Wt = Object.getOwnPropertyDescriptor, ie = (t, e, a, r) => {
-  for (var s = r > 1 ? void 0 : r ? Wt(e, a) : e, i = t.length - 1, o; i >= 0; i--)
+var Wt = Object.defineProperty, Vt = Object.getOwnPropertyDescriptor, ie = (t, e, a, r) => {
+  for (var s = r > 1 ? void 0 : r ? Vt(e, a) : e, i = t.length - 1, o; i >= 0; i--)
     (o = t[i]) && (s = (r ? o(e, a, s) : o(s)) || s);
-  return r && s && Vt(e, a, s), s;
+  return r && s && Wt(e, a, s), s;
 };
 let I = class extends T {
   constructor() {
@@ -1657,7 +1657,7 @@ let k = class extends T {
     const t = [];
     for (let e = 1; e <= 7; e++) {
       const a = `utp${this.userTimerProgram - 4 + 1}_d${e}`, r = this.entities[a], s = u(this.hass, r);
-      s && s.length > 0 && t.push(JSON.parse(s));
+      s && s.length > 0 && s !== "undefined" && t.push(JSON.parse(s));
     }
     this.setWeekSchedule(t), this.workingSchedule = this.deepCloneSchedule(this.schedule), this.hasChanges = !1;
   }
@@ -2062,7 +2062,7 @@ function Jt() {
     return f`<div>Caricamento...</div>`;
   if (typeof this.error == "string" && this.error.length > 0)
     return f`<ha-alert alert-type="error">${this.error}</ha-alert>`;
-  const t = this.hass.language, e = "0.11.01.1762814466650", a = u(this.hass, (ve = this.entities) == null ? void 0 : ve.model, "n/a"), r = u(this.hass, (ye = this.entities) == null ? void 0 : ye.power, "off") === "on", s = Qt(this.hass, t, this.entities), i = Xt(this.hass, this.entities), o = i || c(this.hass.language, n.ui.card.sabiana_vmc.messages.no_alert), d = u(this.hass, ($e = this.entities) == null ? void 0 : $e.boost, "off") === "on", l = d ? c(t, n.ui.card.sabiana_vmc.messages.boost_on) : c(t, n.ui.card.sabiana_vmc.messages.boost_off), p = `
+  const t = this.hass.language, e = "0.11.14.1763162165447", a = u(this.hass, (ve = this.entities) == null ? void 0 : ve.model, "n/a"), r = u(this.hass, (ye = this.entities) == null ? void 0 : ye.power, "off") === "on", s = Qt(this.hass, t, this.entities), i = Xt(this.hass, this.entities), o = i || c(this.hass.language, n.ui.card.sabiana_vmc.messages.no_alert), d = u(this.hass, ($e = this.entities) == null ? void 0 : $e.boost, "off") === "on", l = d ? c(t, n.ui.card.sabiana_vmc.messages.boost_on) : c(t, n.ui.card.sabiana_vmc.messages.boost_off), p = `
 
 ` + c(t, n.ui.card.sabiana_vmc.messages.boost_description), _ = u(this.hass, (xe = this.entities) == null ? void 0 : xe.flush, "off") === "on", h = _ ? c(t, n.ui.card.sabiana_vmc.messages.flush_on) : c(t, n.ui.card.sabiana_vmc.messages.flush_off), S = `
 
@@ -2451,6 +2451,7 @@ const ea = {
   filter_counter: "sensor.@prefix@_blk1_filter_counter_divided_by_15_minutes",
   filter_life: "number.@prefix@_blk2_filter_life",
   reset_filter_counter: "button.@prefix@_reset_filter_counter",
+  service_utp_refresh: "@prefix@_blk4_user_timer_program_refresh",
   utp1_d1: "sensor.@prefix@_blk4_user_timer_program_1_day_1",
   utp1_d2: "sensor.@prefix@_blk4_user_timer_program_1_day_2",
   utp1_d3: "sensor.@prefix@_blk4_user_timer_program_1_day_3",
@@ -2509,13 +2510,13 @@ let $ = class extends T {
     if (super.updated(t), t.has("config")) {
       if (!this.hass || !((e = this.config) != null && e.entity_prefix))
         return;
-      this.entities = ta(this.config.entity_prefix);
-      for (const [l, p] of Object.entries(this.entities))
-        (a = this.hass) != null && a.states && (this.hass.states[p] || (this.error = c(
-          ((r = this.hass) == null ? void 0 : r.language) ?? "en",
-          n.ui.card.sabiana_vmc.errors.missing_entity,
-          { entity: l }
-        )));
+      if (this.entities = ta(this.config.entity_prefix), (a = this.hass) != null && a.states)
+        for (const [l, p] of Object.entries(this.entities))
+          !l.startsWith("service") && !this.hass.states[p] && (this.error = c(
+            ((r = this.hass) == null ? void 0 : r.language) ?? "en",
+            n.ui.card.sabiana_vmc.errors.missing_entity,
+            { entity: l }
+          ));
     } else if (this.spinnerSelectMode && t.has("hass")) {
       const l = t.get("hass"), p = u(l, (s = this.entities) == null ? void 0 : s.mode), _ = u(this.hass, (i = this.entities) == null ? void 0 : i.mode);
       p !== _ && (console.log("La modalità di funzionamento è cambiata:", _), this.spinnerSelectMode = !1);
@@ -2578,8 +2579,14 @@ let $ = class extends T {
       value: t
     });
   }
-  programSettings() {
-    this.modalScheduleSettings = !0;
+  async programSettings() {
+    var t;
+    if ((t = this.entities) != null && t.service_utp_refresh)
+      await this.hass.callService("esphome", this.entities.service_utp_refresh), this.modalScheduleSettings = !0;
+    else {
+      alert("Error");
+      return;
+    }
   }
   saveSchedule(t) {
     console.log("Schedule saved:", t), alert("TODO");

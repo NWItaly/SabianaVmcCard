@@ -56,6 +56,8 @@ const ENTITY_BASE = {
     , filter_counter: 'sensor.@prefix@_blk1_filter_counter_divided_by_15_minutes'
     , filter_life: 'number.@prefix@_blk2_filter_life'
     , reset_filter_counter: 'button.@prefix@_reset_filter_counter'
+    // user timer program
+    , service_utp_refresh: '@prefix@_blk4_user_timer_program_refresh'
     // user timer program 1
     , utp1_d1: 'sensor.@prefix@_blk4_user_timer_program_1_day_1'
     , utp1_d2: 'sensor.@prefix@_blk4_user_timer_program_1_day_2'

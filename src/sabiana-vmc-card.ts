@@ -49,20 +49,22 @@ export class SabianaVmcCard
       if (!this.hass || !this.config?.entity_prefix) {
         return;
       }
-      // Genera le entities con il prefisso specificato
+      // Generate entities with calculated prefix
       this.entities = createSabianaEntities(this.config.entity_prefix);
-      //Controllo che esistano tutte le entità
-      for (const [key, value] of Object.entries(this.entities)) {
-        // console.log(`Entity for ${key}: ${value}`);
-        if (!this.hass?.states) continue;
-        if (!this.hass.states[value]) {
-          this.error = localize(
-            this.hass?.language ?? 'en',
-            LOC_KEYS.ui.card.sabiana_vmc.errors.missing_entity,
-            { entity: key }
-          );
-        }
-      };
+      // Check all entities if exists
+      if (this.hass?.states) {
+        for (const [key, value] of Object.entries(this.entities)) {
+          // console.log(`Entity for ${key}: ${value}`);
+          // Services doesn't have states
+          if (!key.startsWith('service') && !this.hass.states[value]) {
+            this.error = localize(
+              this.hass?.language ?? 'en',
+              LOC_KEYS.ui.card.sabiana_vmc.errors.missing_entity,
+              { entity: key }
+            );
+          }
+        };
+      }
     }
     else if (this.spinnerSelectMode && changedProps.has('hass')) {
       const oldHA = changedProps.get('hass') as HomeAssistant | undefined;
@@ -157,7 +159,10 @@ export class SabianaVmcCard
     });
   }
 
-  protected programSettings() {
+  protected async programSettings() {
+    if (!this.entities?.service_utp_refresh) return;
+
+    await this.hass.callService('esphome', this.entities.service_utp_refresh);
     this.modalScheduleSettings = true;
   }
 
@@ -236,7 +241,7 @@ export class SabianaVmcCard
   //#endregion
 
   //#region Modale
-  
+
   modalShouldBeOpen(): boolean {
     return this.modalMessage !== "" ||
       this.modalTemp4Bypass ||
