@@ -166,11 +166,6 @@ export class SabianaVmcCard
     this.modalScheduleSettings = true;
   }
 
-  protected saveSchedule(schedule: Array<Array<{ hour: number; speed: number }>>) {
-    console.log('Schedule saved:', schedule);
-    alert('TODO');
-  }
-
   protected setHolidayModeModeDays(days: number) {
     if (!this.entities?.holiday_mode_days) return;
     if (days < 1) days = 1;

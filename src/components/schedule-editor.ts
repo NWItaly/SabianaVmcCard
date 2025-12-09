@@ -378,11 +378,8 @@ export class ScheduleEditor extends LitElement {
   }
 
   private saveChanges(): void {
-    this.dispatchEvent(new CustomEvent('schedule-changed', {
-      detail: { schedule: this.deepCloneSchedule(this.workingSchedule) },
-      bubbles: true,
-      composed: true
-    }));
+    const clonedSchedule = this.deepCloneSchedule(this.workingSchedule);
+    this.saveCompleteSchedule(this.userTimerProgram || 0, clonedSchedule);
     this.hasChanges = false;
   }
 
@@ -518,5 +515,101 @@ export class ScheduleEditor extends LitElement {
 
     });
 
+  }
+
+  async saveCompleteSchedule(programNumber: number, scheduleDays: WeekSchedule) {
+    programNumber = programNumber - 4 + 1; // Mappa 4-7 a 1-4
+    for (let day = 0; day < 7; day++) {
+      if (!scheduleDays[day] || scheduleDays[day].length !== 24) {
+        console.error(`Invalid schedule for day ${day + 1}`);
+        return;
+      }
+    }
+
+    // Converti ogni giorno in JSON compresso    
+    const daysJson = Object.entries(scheduleDays).map(([dayStr, hours]) =>
+      JSON.stringify(this.compressDay24ToSabiana(Number(dayStr), hours))
+    );
+
+    try {
+      await this.hass.callService('esphome', this.entities.service_utp_write, {
+        program_number: programNumber,
+        day1_json: daysJson[0],
+        day2_json: daysJson[1],
+        day3_json: daysJson[2],
+        day4_json: daysJson[3],
+        day5_json: daysJson[4],
+        day6_json: daysJson[5],
+        day7_json: daysJson[6]
+      });
+
+      console.log(`Program ${programNumber} saved successfully!`);
+
+      // Opzionale: attendi un po' e ricarico i dati
+      setTimeout(async () => {
+        this.firstUpdated();
+      }, 2000);
+
+    } catch (error) {
+      console.error(`❌ Failed to save program ${programNumber}:`, error);
+      alert('Errore nel salvataggio!');
+    }
+  }
+
+  private pad2(n: number): string {
+    return n.toString().padStart(2, "0");
+  }
+
+  private toTimeStringFromHour(hour: number): string {
+    return `${this.pad2(hour)}:00`;
+  }
+
+  private compressDay24ToSabiana(day: number, daySchedule: HourSchedule[]): JsonDay {
+    if (daySchedule.length !== 24) {
+      throw new Error("daySchedule deve avere esattamente 24 elementi");
+    }
+
+    // Ordino per sicurezza
+    const sorted = [...daySchedule].sort((a, b) => a.hour - b.hour);
+
+    const intervals: JsonInterval[] = [];
+
+    // Primo blocco
+    const standBySpeed = sorted[0].speed;
+    let currentSpeed = sorted[0].speed;
+
+    for (let i = 1; i < sorted.length; i++) {
+      const entry = sorted[i];
+
+      if (entry.speed !== currentSpeed) {
+        // c'è un cambio rispetto a currentSpeed
+        // chiudo il blocco precedente e apro un nuovo cambio
+        intervals.push({
+          t: this.toTimeStringFromHour(entry.hour),
+          s: entry.speed,
+        });
+
+        currentSpeed = entry.speed;
+      }
+    }
+
+    // Se più di 8 cambi, tieni i primi 8
+    if (intervals.length > 8) {
+      intervals.length = 8;
+    }
+
+    // Padding con 23:59 / 0 fino a 8
+    while (intervals.length < 8) {
+      intervals.push({
+        t: "23:59",
+        s: 0,
+      });
+    }
+
+    return {
+      d: day,
+      sb: standBySpeed,
+      i: intervals,
+    };
   }
 }
